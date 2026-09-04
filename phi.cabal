@@ -2,7 +2,9 @@ cabal-version: 1.12
 
 name:           phi
 version:        0.1.0.0
-description:    Pedagogical Haskell Imageboard
+description:    Haskchan - Haskell Imageboard
+homepage:        https://github.com/konamicode01/haskchan
+bug-reports:     https://github.com/konamicode01/haskchan/issues
 --homepage:       
 --bug-reports:    
 --author:         
