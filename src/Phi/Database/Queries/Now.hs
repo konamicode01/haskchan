@@ -24,6 +24,7 @@ import qualified Database.SQLite.Simple as DB
 import           Database.SQLite.Simple (NamedParam((:=)), Only(Only), fromOnly)
 
 import           Phi.Context (Context, extractFromCookie)
+import           Phi.Auth (isLoggedIn)
 import           Phi.Files (deleteBanner, deleteFile)
 import           Phi.Database.Models
 import           Phi.Database.Queries.Types
@@ -198,11 +199,14 @@ getPageDetailsNow context conn mBoard = do
   -- TODO: let boards enable the captcha for themselves regardless of the
   --       global setting (and then include that here)
 
+  loggedIn <- isLoggedIn context
+
   pure $ PageDetails
     { pdTopnav = topnav
     , pdTheme = pageTheme
     , pdCookieSettings = cookiesettings
     , pdGlobalSettings = globalsettings
+    , pdLoggedIn = loggedIn
     }
 
 getBoardsNow :: DB.Connection -> IO [Board]

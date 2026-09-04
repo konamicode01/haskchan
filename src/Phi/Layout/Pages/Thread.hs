@@ -38,14 +38,14 @@ threadL details board (thread, fpost@(post, _mFile, _quotes)) replies =
     threadBoardnavL' board thread True True
     hr_ []
     form_ [id_ "thread", action_ "/.phi/auth/mod", method_ "post"] $ do
-      modformTableL'
+      modformTableL' (pdLoggedIn details)
       opL' (Right thread) fpost
       mconcat $ (flip map) replies $ \reply -> do
         replyL' (Right thread) reply
         hr_ [class_ "invisible"]
     hr_ []
     threadBoardnavL' board thread False (permission board /= NilThreadsNilReplies && lock thread /= Full)
-    modbuttonL'
+    modbuttonL' (pdLoggedIn details)
   where
     globalsettings = pdGlobalSettings details
     titleText

@@ -137,6 +137,7 @@ data PageDetails = PageDetails
   , pdTheme :: Theme
   , pdCookieSettings :: CookieSettings
   , pdGlobalSettings :: GlobalSettings
+  , pdLoggedIn :: Bool
   } deriving (Eq, Show)
 
 -- This is used on error pages where we don't do any more database queries

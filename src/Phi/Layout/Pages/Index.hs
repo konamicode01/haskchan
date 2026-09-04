@@ -31,7 +31,7 @@ indexL details board hulls nPages page =
     indexBoardnavL' board nPages page
     hr_ []
     form_ [id_ "index-threads", action_ "/.phi/auth/mod", method_ "post"] $ do
-      modformTableL'
+      modformTableL' (pdLoggedIn details)
       mconcat $ (flip map) hulls $ \((thread, fpost), replies) -> do
         indexOpL' (Right thread) fpost
         let nOmittedReplies = nReplies thread - length replies
@@ -50,7 +50,7 @@ indexL details board hulls nPages page =
           hr_ [class_ "invisible"]
         hr_ []
     indexBoardnavL' board nPages page
-    modbuttonL'
+    modbuttonL' (pdLoggedIn details)
   where
     globalsettings = pdGlobalSettings details
     countFile _fpost@(post, _mFile, _quotes) = if isNothing $ fileHash post then id else (+1)

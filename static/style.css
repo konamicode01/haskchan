@@ -779,3 +779,20 @@ a.post-name {
   top: 4px;
   right: 8px;
 }
+
+/* Hide moderation controls from logged-out users */
+body.logged-out #modbutton,
+body.logged-out #modform,
+body.logged-out .post-modbutton {
+  display: none !important;
+}
+
+/* Show moderation controls for logged-in users */
+body.logged-in #modbutton,
+body.logged-in #modform {
+  display: block;
+}
+
+body.logged-in .post-modbutton {
+  display: inline;
+}

@@ -2,13 +2,17 @@
 
 module Phi.Layout.Components.Mod where
 
+import Control.Monad (when)
 import Lucid
 
-modbuttonL' :: Html ()
-modbuttonL' = div_ [id_ "modbutton"] $ a_ [href_ "#modform"] "[Mod]"
+modbuttonL' :: Bool -> Html ()
+modbuttonL' loggedIn =
+  when loggedIn $
+    div_ [id_ "modbutton"] $ a_ [href_ "#modform"] "[Mod]"
 
-modformTableL' :: Html ()
-modformTableL' = do
+modformTableL' :: Bool -> Html ()
+modformTableL' loggedIn =
+  when loggedIn $ do
   div_ [id_ "modform"] $ do
     a_ [class_ "closebutton", href_ "##"] "[X]"
     table_ [class_ "formtable"] $ do

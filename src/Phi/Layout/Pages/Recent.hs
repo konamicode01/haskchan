@@ -41,7 +41,7 @@ recentL details openFilterDetails whitelist boardFilter tuples =
                 label_ $ input_ [type_ "radio", name_ "show", value_ "1"]           <> "Whitelist"
             input_ [type_ "submit", value_ "Filter"]
       form_ [action_ "/.phi/auth/mod", method_ "post"] $ do
-        modformTableL'
+        modformTableL' (pdLoggedIn details)
         nav_ [class_ "boardnav"] $
           ul_ [class_ "flat"] $
             li_ $ "[" <> a_ [href_ ""] "Update" <> "]"
@@ -60,4 +60,4 @@ recentL details openFilterDetails whitelist boardFilter tuples =
             li_ $ "[" <> a_ [href_ ""] "Update" <> "]"
           ul_ [class_ "flat"] $
             li_ $ "[" <> a_ [href_ "#top"] "Top" <> "]"
-        modbuttonL'
+        modbuttonL' (pdLoggedIn details)

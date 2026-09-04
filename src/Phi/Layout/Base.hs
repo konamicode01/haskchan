@@ -27,7 +27,7 @@ baseL' includeThemeSelect details htmlHead htmlBody =
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
       htmlHead
-    body_ $ do
+    body_ [class_ $ if pdLoggedIn details then "logged-in" else "logged-out"] $ do
       div_ [id_ "top"] ""
       nav_ [id_ "topnav"] $ do
         ul_ [id_ "topnav-links", class_ "flat"] $ do

@@ -31,7 +31,7 @@ catalogueL details board ops =
     catalogueBoardnavL' board
     hr_ []
     form_ [id_ "catalogue-threads", action_ "/.phi/auth/mod", method_ "post"] $ do
-      modformTableL'
+      modformTableL' (pdLoggedIn details)
       mconcat $ (flip map) ops $ \(thread, (post, mFile, _quotes)) -> do
         article_ [class_ "catalogue-thread"] $ do
           header_ [class_ "catalogue-thread-header"] $ do
@@ -71,6 +71,6 @@ catalogueL details board ops =
           blockquote_ [class_ "catalogue-thread-message"] $
             message post
         hr_ [class_ "invisible"]
-    modbuttonL'
+    modbuttonL' (pdLoggedIn details)
   where
     globalsettings = pdGlobalSettings details
