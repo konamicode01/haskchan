@@ -1,0 +1,47 @@
+:root {
+  /* Backgrounds */
+  --main-bg-color: #dfe;
+  --middle-bg-color: #bfe3d1;
+  --barheader-bg-color: #acb;
+  --container-bg-color: #ced;
+  --topnav-bg-color: #ced;
+  --post-bg-color: #bdc;
+  --post-highlighted-bg-color: #9ba;
+  --formtable-label-bg-color: #acb;
+  --recent-bg-color: var(--container-bg-color);
+
+  /* Borders */
+  --light-border-color: black;
+  --dark-border-color: black;
+
+  /* Text */
+  --anchor-color: #05a;
+  --barren-anchor-color: var(--anchor-color);
+  --post-anchor-color: #c00;
+  --pagetitle-color: #cc4242;
+  --pagesubtitle-color: #800;
+  --threadclosed-color: var(--pagetitle-color); /* guess */
+  --secondary-color: #636363;
+  --post-subject-color: #016;
+  --post-name-color: #070;
+  --post-capcode-color: #f22;
+  --post-tripcode-color: var(--post-name-color);
+  --sidearrows-color: #8fbca6;
+  --greentext-color: var(--post-name-color);
+  --pinktext-color: #a66;
+  --titletext-color: #e33;
+}
+
+.barheader {
+  font-size: 12pt;
+}
+.post-message > a {
+  color: var(--post-anchor-color);
+}
+.post-capcode {
+  font-weight: normal;
+}
+.titletext {
+  font-size: 11pt;
+  letter-spacing: -0.7px;
+}

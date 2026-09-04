@@ -1,0 +1,71 @@
+{-# LANGUAGE OverloadedStrings #-}
+
+module Phi.Layout.Base where
+
+import Control.Monad (when)
+import Lucid
+
+import Phi.Database.Models
+
+baseL :: PageDetails -> Html () -> Html () -> Html ()
+baseL = baseL' True
+
+baseWithoutThemeSelectL :: PageDetails -> Html () -> Html () -> Html ()
+baseWithoutThemeSelectL = baseL' False
+
+baseL' :: Bool -> PageDetails -> Html () -> Html () -> Html ()
+baseL' includeThemeSelect details htmlHead htmlBody =
+  doctypehtml_ $ do
+    head_ $ do
+      meta_ [charset_ "utf-8"]
+      meta_ [name_ "viewport", content_ "width=device-width, initial-scale=1"]
+      meta_ [ httpEquiv_ "content-security-policy"
+            , content_ "default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';"
+            ]
+      meta_ [name_ "referrer", content_ "same-origin"]
+      link_ [rel_ "stylesheet", href_ "/.phi/static/style.css"]
+      when (pageTheme /= Phichannel) $
+        link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
+      htmlHead
+    body_ $ do
+      div_ [id_ "top"] ""
+      nav_ [id_ "topnav"] $ do
+        ul_ [id_ "topnav-links", class_ "flat"] $ do
+          li_ $ a_ [href_ "/"] "home"
+          li_ $ a_ [href_ "/.phi/auth/"] "mod"
+          li_ $ a_ [href_ "/.phi/log"] "log"
+          li_ $ a_ [href_ "/.phi/recent"] "recent"
+        ul_ [id_ "topnav-boards", class_ "flat"] $
+          mconcat $ (flip map) topnav $ \board ->
+            li_ $
+              a_ [href_ $ "/" <> uri board <> "/", title_ $ title board] $
+                toHtml $ uri board
+        when includeThemeSelect $
+          a_ [id_ "topnav-theme", href_ "#theme"] "theme"
+      main_
+        htmlBody
+      when includeThemeSelect $
+        div_ [id_ "theme"] $ do
+          span_ [id_ "theme-arrow"] ""
+          form_ [action_ "/.phi/settings"] $ do
+            select_ [name_ "theme"] $ do
+              option_ (optionAttributes $ Nothing)         "-- Default --"
+              option_ (optionAttributes $ Just Phichannel) "Phichannel"
+              option_ (optionAttributes $ Just Nanochan)   "Nanochan"
+              option_ (optionAttributes $ Just Yotsuba)    "Yotsuba"
+            input_ [type_ "submit", value_ "Theme"]
+      div_ [id_ "bottom"] ""
+  where
+    topnav = pdTopnav details
+    pageTheme = pdTheme details
+    cookiesettings = pdCookieSettings details
+
+    optionAttributes mTheme_ =
+      if mTheme_ == cookieTheme cookiesettings
+      then [value_ $ getName mTheme_, selected_ ""]
+      else [value_ $ getName mTheme_]
+
+    getName Nothing           = ""
+    getName (Just Phichannel) = "phichannel"
+    getName (Just Nanochan)   = "nanochan"
+    getName (Just Yotsuba)    = "yotsuba"

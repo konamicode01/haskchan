@@ -1,0 +1,7 @@
+resolver: lts-18.14
+extra-deps:
+- git: https://github.com/positiondev/hspec-fn.git
+  commit: 46751a6c06ad6eb6fa073880ec5b6bd06f7d4e70
+- digestive-functors-0.8.4.2@sha256:badff1797b6dcd860a48ed4558985b2f6bec501e1016fa5afd9d7d6b0d8e4c08,3364
+- git: https://github.com/acowley/ffmpeg-light.git
+  commit: b0c464b96be0b983a1e6e62cb5d8cfb922159473

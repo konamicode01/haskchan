@@ -1,0 +1,12 @@
+.stack-work/
+*.sw[a-p]
+*~
+*.lock
+phi.db
+test.db
+secret.bin
+static/file/
+static/thumb/
+static/banner/
+captcha/
+tmp/
