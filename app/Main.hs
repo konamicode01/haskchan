@@ -1,9 +1,15 @@
 module Main where
 
+import Control.Concurrent (forkIO)
+import Data.String (fromString)
+
 import Network.Wai.Handler.Warp
   ( defaultSettings
+  , runSettings
+  , setHost
   , setPort
   )
+
 import Network.Wai.Handler.WarpTLS
   ( runTLS
   , tlsSettings
@@ -33,7 +39,13 @@ main = do
         "certs/origin.crt"
         "certs/origin.key"
 
-      settings = setPort 443 defaultSettings
+      httpsSettings =
+        setPort 443 defaultSettings
 
-  runTLS tls settings app
+      onionSettings =
+        setHost (fromString "127.0.0.1")
+        $ setPort 7000 defaultSettings
 
+  _ <- forkIO $ runSettings onionSettings app
+
+  runTLS tls httpsSettings app
