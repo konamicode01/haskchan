@@ -637,3 +637,145 @@ a.post-name {
   100% {
   }
 }
+
+/* =========================================================
+   Shared Haskchan navigation
+   ========================================================= */
+
+#topnav {
+  position: relative;
+  min-height: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#topnav-right {
+  position: absolute;
+  top: 4px;
+  right: 55px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+#topnav-right > li {
+  display: inline-block;
+  margin: 0 0 0 8px;
+  padding: 0;
+}
+
+#topnav-right a {
+  text-decoration: none;
+}
+
+#topnav-theme {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+}
+
+#settings-menu {
+  display: none;
+  position: absolute;
+  top: 28px;
+  right: 8px;
+  z-index: 9999;
+}
+
+#settings-menu:target {
+  display: block;
+}
+
+#settings-menu-content {
+  display: block;
+  width: 220px;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+.settings-title {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.settings-section {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.settings-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.settings-section a {
+  display: block;
+  padding: 4px 0;
+  text-decoration: none;
+}
+
+#settings-menu-content > a {
+  display: block;
+  padding-top: 6px;
+  font-size: 9pt;
+  text-decoration: none;
+}
+
+
+/* Final navbar spacing */
+#topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+
+#topnav-links {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+#topnav-links > li {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+#topnav-boards {
+  display: inline;
+  margin-left: 2px;
+  padding: 0;
+}
+
+#topnav-boards > li {
+  display: inline-block;
+  margin-right: 2px;
+}
+
+#topnav-boards a::before,
+#topnav-boards a::after {
+  margin: 0;
+}
+
+#topnav-right {
+  position: absolute;
+  top: 4px;
+  right: 55px;
+  margin: 0;
+  padding: 0;
+}
+
+#topnav-right > li {
+  display: inline-block;
+  margin-left: 6px;
+}
+
+#topnav-theme {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+}

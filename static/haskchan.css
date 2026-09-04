@@ -155,3 +155,66 @@ a {
   margin-left: 15px;
   margin-right: 15px;
 }
+
+/* Right-side navigation */
+#topnav-right {
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+
+#topnav-right > li {
+  display: inline;
+  margin-left: 8px;
+}
+
+#topnav-right a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#topnav-right a:hover {
+  text-decoration: underline;
+}
+
+
+/* Haskchan navigation colors */
+#topnav-right a,
+#topnav-theme {
+  color: #ffffff;
+}
+
+#settings-menu-content {
+  background: #2f1e3d;
+  border: 1px solid #8059a0;
+  box-shadow: 0 4px 14px #00000073;
+  color: #ffffff;
+}
+
+.settings-title {
+  color: #ffffff;
+  border-bottom: 1px solid #554064;
+}
+
+.settings-label {
+  color: #43d17a;
+}
+
+.settings-section a {
+  color: #ffffff;
+}
+
+.settings-section a:hover,
+#topnav-right a:hover,
+#topnav-theme:hover {
+  text-decoration: underline;
+}
+
+#settings-menu-content > a {
+  color: #9f91aa;
+  border-top: 1px solid #554064;
+}
+
+#settings-menu-content > a:hover {
+  color: #ffffff;
+}

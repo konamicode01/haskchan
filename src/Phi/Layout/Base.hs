@@ -40,8 +40,25 @@ baseL' includeThemeSelect details htmlHead htmlBody =
             li_ $
               a_ [href_ $ "/" <> uri board <> "/", title_ $ title board] $
                 toHtml $ uri board
+        ul_ [id_ "topnav-right", class_ "flat"] $ do
+          li_ $ a_ [href_ "#settings-menu"] "settings"
+
         when includeThemeSelect $
           a_ [id_ "topnav-theme", href_ "#theme"] "theme"
+
+      div_ [id_ "settings-menu"] $ do
+        div_ [id_ "settings-menu-content"] $ do
+          div_ [class_ "settings-title"] "Settings"
+          div_ [class_ "settings-section"] $ do
+            span_ [class_ "settings-label"] "Theme"
+            a_ [href_ "/.phi/settings?theme=haskchan"] "Haskchan"
+            a_ [href_ "/.phi/settings?theme=yotsuba"] "Yotsuba"
+            a_ [href_ "/.phi/settings?theme=nanochan"] "Nanochan"
+            a_ [href_ "/.phi/settings?theme=phichannel"] "Phichannel"
+          div_ [class_ "settings-section"] $ do
+            span_ [class_ "settings-label"] "Account"
+            a_ [href_ "/.phi/auth/"] "Account / Mod"
+          a_ [href_ "#"] "close"
       main_
         htmlBody
       when includeThemeSelect $
