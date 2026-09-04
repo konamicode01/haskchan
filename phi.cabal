@@ -14,7 +14,7 @@ build-type:     Simple
 
 source-repository head
   type: git
-  location: http://phisourcepwswfgptrbut2puqant75jyu55t4vgjako7bbhk3wyqmqid.onion/phichannel/phi.git/
+  location: https://github.com/konamicode01/haskchan.git
 
 library
   exposed-modules:
