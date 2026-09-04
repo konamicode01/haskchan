@@ -72,6 +72,9 @@ baseL' includeThemeSelect details htmlHead htmlBody =
               option_ (optionAttributes $ Just Yotsuba)    "Yotsuba"
               option_ (optionAttributes $ Just Haskchan)   "Haskchan"
             input_ [type_ "submit", value_ "Theme"]
+      footer_ [id_ "site-footer"] $ do
+        "This code is ran by "
+        a_ [href_ "https://github.com/konamicode01/haskchan"] "Haskchan"
       div_ [id_ "bottom"] ""
   where
     topnav = pdTopnav details
