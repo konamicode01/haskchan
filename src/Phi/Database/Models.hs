@@ -151,6 +151,7 @@ instance Default PageDetails where
     , pdTheme = Phichannel
     , pdCookieSettings = def
     , pdGlobalSettings = def
+    , pdLoggedIn = False
     }
 
 type FileHash = Text

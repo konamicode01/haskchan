@@ -23,6 +23,7 @@ baseL' includeThemeSelect details htmlHead htmlBody =
             , content_ "default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';"
             ]
       meta_ [name_ "referrer", content_ "same-origin"]
+      link_ [rel_ "icon", type_ "image/x-icon", href_ "/.phi/static/favicon.ico"]
       link_ [rel_ "stylesheet", href_ "/.phi/static/style.css"]
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
