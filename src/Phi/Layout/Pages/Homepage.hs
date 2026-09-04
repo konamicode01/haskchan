@@ -12,7 +12,7 @@ import           Phi.Layout.Base (baseL)
 homepageL :: PageDetails -> [Board] -> [Post] -> [Post] -> Html ()
 homepageL details boards teaserImagePosts teaserPosts =
   baseL details (title_ "Homepage") $ do
-    h1_ [id_ "pagetitle"] "Phi"
+    h1_ [id_ "pagetitle"] "Haskchan"
     article_ [id_ "home", class_ "container"] $ do
       header_ [class_ "barheader"] "Boards"
       section_ $
