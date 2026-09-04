@@ -1,78 +1,97 @@
-## phi
+haskchan
+haskchan is the pedagogical Haskell imageboard (I made it to teach myself Haskell).
+Requirements
+A Linux (or BSD) server — these instructions assume Debian/Ubuntu
+Stack (handles GHC and all Haskell dependencies)
+`sqlite3` (for admin user setup)
+~2GB of free memory and ~1 hour of build time for the first build
+Quick start
+```bash
+# 1. Clone the repo
+git clone https://github.com/konamicode01/haskchan.git haskchan
+cd haskchan
 
-phi is the pedagogical Haskell imageboard (I made it to teach myself Haskell).
+# 2. Install non-Haskell build dependencies (Debian/Ubuntu)
+sudo apt update
+sudo apt install -y pkg-config libavutil-dev libavformat-dev libavdevice-dev \
+    libavcodec-dev libswscale-dev zlib1g-dev
 
-### Setup
+# 3. Install Stack, if you don't already have it
+curl -sSL https://get.haskellstack.org/ | sh
 
-#### Install Stack
+# 4. Build (downloads GHC + all dependencies, ~1 hour, ~2GB RAM)
+stack build
 
-A tool called Stack handles dependencies and the build process, and you need it to build phi. https://docs.haskellstack.org/en/stable/README/#how-to-install
+# 5. Create the server secret (used for login cookies and tripcodes, min 32 bytes)
+dd if=/dev/urandom of=secret.bin count=1 bs=32
 
-##### Proxying Stack through Tor
-
-Stack only accepts HTTP proxies, so it cannot proxy through Tor directly. It is possible to create an HTTP proxy that redirects to a SOCKS proxy, for example with Polipo or Privoxy. Polipo is abandoned so to get this to work with Privoxy you need to install it and uncomment the Tor example lines in `/etc/privoxy/config`. If Privoxy is running you should have an HTTP proxy at port 8118 that will go through Tor.
-
-For example on Debian:
-
-Install Privoxy
+# 6. Run
+stack run
 ```
+By default this starts haskchan on `localhost:7000`.
+Configuring
+Site configuration lives in `app/Main.hs`. Before running, check that these paths are correct for your setup:
+database file — SQLite db path
+secret file — path to the `secret.bin` you created above; must exist and be ≥32 bytes
+static folder — created automatically if missing
+captcha folder — created automatically if missing
+font file — used to render captcha images; defaults to `DejaVuSansMono-Bold.ttf`. If you don't have this font installed, point it at a font file that exists on your system (`fc-list | grep -i dejavu` to check, or `apt install fonts-dejavu`)
+Make sure the user running `stack run` has write permission to the db file, static folder, and captcha folder.
+Creating an admin user
+There's no built-in admin-creation command yet, so:
+Register a normal account on the running site.
+Promote it to admin directly in the database:
+```bash
+sqlite3 haskchan.db
+sqlite> UPDATE user SET admin = 1;
+```
+⚠️ This promotes every existing user to admin — fine for a fresh install with one account, but don't run it once you have real users. If you need to target a single user, adjust the query with a `WHERE` clause matching your `user` table's username/id column.
+Running on a remote server (e.g. via SSH)
+If you're deploying to a VPS:
+```bash
+ssh root@your-server
+cd ~/haskchan
+git pull            # or clone as above on first setup
+stack build
+stack run
+```
+`stack run` runs in the foreground on port 7000. For a real deployment you'll want to:
+Run it under a process supervisor (systemd service, `screen`/`tmux`, or a tool like `supervisord`) so it survives disconnecting your SSH session
+Put a reverse proxy (nginx/Caddy) in front of it for TLS and to expose it on port 80/443
+Run it as a non-root user rather than `root`, for security
+Example minimal systemd unit (`/etc/systemd/system/haskchan.service`):
+```ini
+[Unit]
+Description=haskchan imageboard
+After=network.target
+
+[Service]
+WorkingDirectory=/home/haskchan/haskchan
+ExecStart=/home/haskchan/haskchan/.stack-work/install/.../bin/haskchan-exe
+Restart=on-failure
+User=haskchan
+
+[Install]
+WantedBy=multi-user.target
+```
+(Adjust `ExecStart` to the actual binary path Stack produces — run `stack path --local-install-root` to find it, or just use `stack exec haskchan-exe` if the entry point is named differently.)
+Proxying Stack through Tor (optional)
+Stack only accepts HTTP proxies, so it can't proxy through Tor directly. You can bridge an HTTP proxy to a SOCKS proxy with Privoxy (Polipo is abandoned, so use Privoxy instead):
+```bash
 apt install privoxy
 editor /etc/privoxy/config
 ```
-
-Uncomment this line in the config
+Uncomment this line in the config:
 ```
 forward-socks5t / 127.0.0.1:9050 .
 ```
-
-Set http proxy environment variables
-```
+Then set the proxy environment variables before running Stack commands:
+```bash
 export HTTP_PROXY=http://127.0.0.1:8118
 export HTTPS_PROXY=http://127.0.0.1:8118
 ```
-
-Now Stack will proxy through Tor.
-
-#### Non-Haskell dependencies
-
-Some of the dependencies e.g. `ffmpeg-light` require non-Haskell packages. These are the names of the required packages in Debian. It should be similar on other Linux distributions and BSD.
-
-```pkg-config libavutil-dev libavformat-dev libavdevice-dev libavcodec-dev libswscale-dev zlib1g-dev```
-
-#### Building
-
-Run `stack build` build phi. Before that happens it will download GHC (the compiler) and compile all the dependencies. This will take on the order of 1 hour and 2GB of memory.
-Run `stack run` to start phi on localhost port 7000.
-
-#### Configuring
-
-If you ran `stack run` as above you will have gotten a "file not found" error. This is because the server secret file does not exist yet. Take a look at the site configuration in `app/Main.hs`, it specifies these things:
-- database file
-- secret file
-- static folder
-- captcha folder
-- font file
-
-The secret file is used for verifying login cookies and generting secure tripcodes. It needs to exist. It should be at least 32 bytes. It could be larger but it isn't necessary. On Linux you can create it with `dd`:
-
-```dd if=/dev/urandom of=secret.bin count=1 bs=32```
-
-The font file is used for generating captcha images. By default it points to `DejaVuSansMono-Bold.ttf` but you may not have this font, make sure it points to a font that exists.
-
-The remaining files (db file, static folder, captcha folder) will be created if they don't exist already, just make sure the running user has write permissions for all of them.
-
-#### Creating an admin user
-
-**TODO**
-
-As of now to create an admin user you can register on the site but then you have to edit the database manually to promote that user to admin.
-
-Using `sqlite3`:
-
-```
-$ sqlite3
-sqlite> .open phi.db
-sqlite> UPDATE user SET admin = 1;
-```
-
-This will make ALL existing users admin so just make sure you know that.
+Privoxy listens on port 8118 and will forward through Tor on 9050.
+Troubleshooting
+"file not found" on `stack run` — you haven't created the secret file yet; see step 5 above.
+Build fails on `ffmpeg-light` — you're missing the non-Haskell dependencies; see step 2 above.
+Captcha images fail to generate — the configured font file doesn't exist on disk; update the font path in `app/Main.hs`.
