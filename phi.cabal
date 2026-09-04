@@ -93,6 +93,7 @@ library
     , wai
     , wai-extra
     , warp
+    , warp-tls
   default-language: Haskell2010
 
 executable haskchan-exe
@@ -104,6 +105,7 @@ executable haskchan-exe
       base >=4.7 && <5
     , phi
     , warp
+    , warp-tls
   default-language: Haskell2010
 
 test-suite phi-test

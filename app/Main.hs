@@ -1,6 +1,14 @@
 module Main where
 
-import Network.Wai.Handler.Warp (run)
+import Network.Wai.Handler.Warp
+  ( defaultSettings
+  , setPort
+  )
+import Network.Wai.Handler.WarpTLS
+  ( runTLS
+  , tlsSettings
+  )
+
 import Phi (phi)
 import Phi.Context (Config(..), mkContext)
 
@@ -20,4 +28,12 @@ main :: IO ()
 main = do
   context <- mkContext config
   app <- phi context
-  run 7000 app
+
+  let tls = tlsSettings
+        "certs/origin.crt"
+        "certs/origin.key"
+
+      settings = setPort 443 defaultSettings
+
+  runTLS tls settings app
+

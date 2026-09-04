@@ -53,6 +53,7 @@ baseL' includeThemeSelect details htmlHead htmlBody =
               option_ (optionAttributes $ Just Phichannel) "Phichannel"
               option_ (optionAttributes $ Just Nanochan)   "Nanochan"
               option_ (optionAttributes $ Just Yotsuba)    "Yotsuba"
+              option_ (optionAttributes $ Just Haskchan)   "Haskchan"
             input_ [type_ "submit", value_ "Theme"]
       div_ [id_ "bottom"] ""
   where
@@ -69,3 +70,4 @@ baseL' includeThemeSelect details htmlHead htmlBody =
     getName (Just Phichannel) = "phichannel"
     getName (Just Nanochan)   = "nanochan"
     getName (Just Yotsuba)    = "yotsuba"
+    getName (Just Haskchan)   = "haskchan"

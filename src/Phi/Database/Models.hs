@@ -112,7 +112,7 @@ data GlobalSettings = GlobalSettings
 
 instance Default GlobalSettings where
   def = GlobalSettings
-    { globalTheme = Phichannel
+    { globalTheme = Haskchan
     , openRegistration = True
     , userBoardCreation = False
     , captchaBaseline = True
@@ -198,12 +198,14 @@ data Theme
   = Phichannel
   | Nanochan
   | Yotsuba
+  | Haskchan
   deriving (Eq, Show)
 
 themeUrl :: Theme -> Text
 themeUrl Phichannel = "/.phi/static/style.css"
 themeUrl Nanochan   = "/.phi/static/nanochan.css"
 themeUrl Yotsuba    = "/.phi/static/yotsuba.css"
+themeUrl Haskchan   = "/.phi/static/haskchan.css"
 
 data BoardPermission
   = AnyThreadsAnyReplies
@@ -273,6 +275,7 @@ instance FromParam Theme where
   fromParam ["0"] = Right Phichannel
   fromParam ["1"] = Right Nanochan
   fromParam ["2"] = Right Yotsuba
+  fromParam ["3"] = Right Haskchan
   fromParam [_]   = Left ParamUnparsable
   fromParam []    = Left ParamMissing
   fromParam _     = Left ParamTooMany
@@ -316,6 +319,7 @@ instance ToField Theme where
   toField Phichannel = toField (0 :: Int)
   toField Nanochan   = toField (1 :: Int)
   toField Yotsuba    = toField (2 :: Int)
+  toField Haskchan   = toField (3 :: Int)
 
 instance FromField Theme where
   fromField f =
@@ -323,7 +327,8 @@ instance FromField Theme where
       Ok 0 -> Ok Phichannel
       Ok 1 -> Ok Nanochan
       Ok 2 -> Ok Yotsuba
-      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2)"
+      Ok 3 -> Ok Haskchan
+      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 3)"
 
 instance ToField BoardPermission where
   toField AnyThreadsAnyReplies = toField (0 :: Int)
@@ -338,7 +343,7 @@ instance FromField BoardPermission where
       Ok 1 -> Ok ModThreadsAnyReplies
       Ok 2 -> Ok NilThreadsAnyReplies
       Ok 3 -> Ok NilThreadsNilReplies
-      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 3)"
+      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 3, 3)"
 
 instance ToField IndexViewPolicy where
   toField IndexViewDisallowed = toField (0 :: Int)
@@ -351,7 +356,7 @@ instance FromField IndexViewPolicy where
       Ok 0 -> Ok IndexViewDisallowed
       Ok 1 -> Ok IndexViewAllowed
       Ok 2 -> Ok IndexViewPreferred
-      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2)"
+      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 3)"
 
 instance ToField Lock where
   toField Free             = toField (0 :: Int)
@@ -372,7 +377,7 @@ instance FromField Lock where
       Ok 5 -> Ok LockedBumplocked
       Ok 6 -> Ok LockedCyclic
       Ok 8 -> Ok Full
-      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 4, 5, 6, 8)"
+      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1, 2, 3, 4, 5, 6, 8)"
 
 instance ToField (Html ()) where
   toField = toField . renderText

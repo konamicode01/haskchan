@@ -177,6 +177,7 @@ getPageDetailsNow context conn mBoard = do
       Just "phichannel" -> Just Phichannel
       Just "nanochan"   -> Just Nanochan
       Just "yotsuba"    -> Just Yotsuba
+      Just "haskchan"   -> Just Haskchan
       _                 -> Nothing
     cookiesettings = CookieSettings { cookieTheme = cookieTheme_ }
 

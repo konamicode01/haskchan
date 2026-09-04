@@ -43,6 +43,7 @@ boardSettingsPromptL details powerlevel board modtuples =
                 option_ (value_ "0" : (selectTheme $ Just Phichannel)) "Phichannel"
                 option_ (value_ "1" : (selectTheme $ Just Nanochan))   "Nanochan"
                 option_ (value_ "2" : (selectTheme $ Just Yotsuba))    "Yotsuba"
+                option_ (value_ "3" : (selectTheme $ Just Haskchan))   "Haskchan"
           tr_ $ do
             td_ "Anon name"
             td_ $ input_ [name_ "anon-name", value_ $ anonName board]

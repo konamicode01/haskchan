@@ -90,7 +90,7 @@ settingsH context themeName =
   where
     returnUrl = fromMaybe "/" $ getReferrer context
     headers =
-      if themeName `elem` ["phichannel", "nanochan", "yotsuba"]
+      if themeName `elem` ["phichannel", "nanochan", "yotsuba", "haskchan"]
       then [ ("set-cookie", "theme=" <> encodeUtf8 themeName <> "; path=/")
            , ("location", returnUrl <> "#bottom")
            ]

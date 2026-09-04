@@ -21,6 +21,7 @@ globalSettingsPromptL details =
                 option_ (value_ "0" : selectGlobalTheme Phichannel) "Phichannel"
                 option_ (value_ "1" : selectGlobalTheme Nanochan)   "Nanochan"
                 option_ (value_ "2" : selectGlobalTheme Yotsuba)    "Yotsuba"
+                option_ (value_ "3" : selectGlobalTheme Haskchan)   "Haskchan"
           tr_ $ do
             td_ "Open registration"
             td_ $ input_ (name_ "open-registration" : type_ "checkbox" : check openRegistration)
