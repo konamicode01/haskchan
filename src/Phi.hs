@@ -2,8 +2,9 @@
 
 module Phi where
 
-import           Data.ByteString (isInfixOf)
-import qualified Data.Text as T (drop, length, take)
+import           Data.ByteString (ByteString, isInfixOf)
+import           Data.Text (Text)
+import qualified Data.Text as T (drop, length, take, isSuffixOf)
 import           Data.Text.Encoding (encodeUtf8)
 
 import           Network.HTTP.Types.Status (ok200, requestEntityTooLarge413, permanentRedirect308)
@@ -38,14 +39,53 @@ limitRequestSize = requestSizeLimitMiddleware settings
 
 cacheStaticFiles :: Middleware
 cacheStaticFiles =
-  ifRequest isForStaticFiles $
-    modifyResponse $ \res ->
+  ifRequest isForStaticFiles $ \app req sendResponse ->
+    app req $ \res ->
       if responseStatus res == ok200
-      then mapResponseHeaders (\headers -> header : headers) res
-      else res
+      then sendResponse $
+        mapResponseHeaders (addHeaders (pathInfo req)) res
+      else sendResponse res
   where
-    isForStaticFiles req = take 2 (pathInfo req) == [".phi", "static"]
-    header = ("cache-control", "public, max-age=86400, immutable")
+    isForStaticFiles req =
+      take 2 (pathInfo req) == [".phi", "static"]
+
+    addHeaders paths headers =
+      cacheHeader : mimeHeader paths headers ++ headers
+
+    cacheHeader =
+      ("cache-control", "public, max-age=86400, immutable")
+
+    mimeHeader paths headers =
+      case lookup "content-type" headers of
+        Just _  -> []
+        Nothing ->
+          case staticMimeType paths of
+            Nothing   -> []
+            Just mime -> [("content-type", mime)]
+
+staticMimeType :: [Text] -> Maybe ByteString
+staticMimeType paths =
+  case reverse paths of
+    filename : _ ->
+      case () of
+        _ | ".webp" `T.isSuffixOf` filename -> Just "image/webp"
+          | ".jpg" `T.isSuffixOf` filename  -> Just "image/jpeg"
+          | ".jpeg" `T.isSuffixOf` filename -> Just "image/jpeg"
+          | ".png" `T.isSuffixOf` filename  -> Just "image/png"
+          | ".gif" `T.isSuffixOf` filename  -> Just "image/gif"
+          | ".svg" `T.isSuffixOf` filename  -> Just "image/svg+xml"
+          | ".ico" `T.isSuffixOf` filename  -> Just "image/x-icon"
+          | ".css" `T.isSuffixOf` filename  -> Just "text/css; charset=utf-8"
+          | ".js" `T.isSuffixOf` filename   -> Just "text/javascript; charset=utf-8"
+          | ".mp4" `T.isSuffixOf` filename  -> Just "video/mp4"
+          | ".webm" `T.isSuffixOf` filename -> Just "video/webm"
+          | ".mp3" `T.isSuffixOf` filename  -> Just "audio/mpeg"
+          | ".ogg" `T.isSuffixOf` filename  -> Just "audio/ogg"
+          | ".flac" `T.isSuffixOf` filename -> Just "audio/flac"
+          | ".txt" `T.isSuffixOf` filename  -> Just "text/plain; charset=utf-8"
+          | otherwise -> Nothing
+    [] -> Nothing
+
 
 addSecurityHeaders :: Middleware
 addSecurityHeaders = modifyResponse . mapResponseHeaders $ \headers ->
