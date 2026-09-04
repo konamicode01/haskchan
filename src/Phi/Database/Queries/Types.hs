@@ -83,4 +83,8 @@ data DeleteBannersFail
   | NoBanners
   deriving (Eq, Show)
 
+data DeleteBoardFail
+  = InvalidConfirmation
+  deriving (Eq, Show)
+
 data PostHasNoFile = PostHasNoFile deriving (Eq, Show)

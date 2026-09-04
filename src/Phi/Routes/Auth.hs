@@ -15,7 +15,7 @@ import           Phi.Auth (elicitUsername, isLoggedIn)
 import           Phi.Captcha (enforceCaptcha)
 import           Phi.Context (Context, getReferrerAsText)
 import           Phi.Database.Models (BoardPermission, IndexViewPolicy, Theme, BlankMaybe(..), SuperMaybe(..), PageDetails(..), User(admin), GlobalSettings(userBoardCreation, openRegistration))
-import           Phi.Database.Queries (getPageDetails, addBanner, deleteBanners, getBanners, getBoardAndModTuples, getBoards, getGlobalSettings, getUser, getUserAndBoards, makeBoard, setBoardSettings, setGlobalSettings, moderate)
+import           Phi.Database.Queries (getPageDetails, addBanner, deleteBanners, getBanners, getBoardAndModTuples, getBoards, getGlobalSettings, getUser, getUserAndBoards, makeBoard, setBoardSettings, deleteBoard, setGlobalSettings, moderate)
 import           Phi.Database.Queries.Types
 import           Phi.Files (readableFilesize)
 import           Phi.Forms (boardSettingsPage, boardSettingsForm, globalSettingsForm, makeBoardForm, modForm, validate, Validation(..))
@@ -70,6 +70,11 @@ authRoutes context = route context
                 // param "unto-mods"
                 // param "select-mod"
                 // end !=> boardSettingsH
+  , method POST // path "board"
+                // path "delete"
+                // segment
+                // param "confirmation"
+                // end ==> deleteBoardH
   , method GET // path "board"
                // path "banners"
                // segment
@@ -221,6 +226,27 @@ boardSettingsH context uri_ title_ description_ (BlankMaybe mTheme_) anonName_ b
   where
     validation = validate $
       boardSettingsForm uri_ title_ description_ mTheme_ anonName_ bumpLimit_ replyLimit_ threadLimit_ permission_ indexViewPolicy_ addMod untoMods selectMods
+
+deleteBoardH :: Context -> Text -> Text -> IO (Maybe Response)
+deleteBoardH context uri_ confirmation = do
+  mUsername <- elicitUsername context
+  case mUsername of
+    Nothing -> errorH forbidden403 "You are not logged in"
+    Just username_ -> do
+      mReceipt <- deleteBoard context username_ uri_ confirmation
+      case mReceipt of
+        Nothing ->
+          errorH conflict409 "Error deleting board"
+        Just (Left (Left NoSuchBoard)) ->
+          errorH notFound404 "No such board"
+        Just (Left (Right (Left UserNotFound))) ->
+          errorH forbidden403 "No user exists with the username in your cookie"
+        Just (Left (Right (Left Forbidden))) ->
+          errorH forbidden403 "You have no authority here"
+        Just (Left (Right (Right InvalidConfirmation))) ->
+          errorH badRequest400 "You must type DELETE to confirm"
+        Just (Right ()) ->
+          redirect "/.phi/auth/"
 
 changeBannersPromptH :: Context -> Text -> IO (Maybe Response)
 changeBannersPromptH context uri_ = do

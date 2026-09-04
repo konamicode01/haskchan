@@ -446,6 +446,60 @@ makeBoard context username_ newboard =
             insertBoardNow conn user newboard
             pure $ Right ()
 
+deleteBoard :: Context -> Text -> Text -> Text -> Receipt (Either NoSuchBoard (Either NoAuthority DeleteBoardFail)) ()
+deleteBoard context username_ uri_ confirmation =
+  tryTransaction context $ \conn -> do
+    mUser <- getUserNow conn username_
+    case mUser of
+      Nothing -> pure $ Left $ Right $ Left UserNotFound
+      Just user -> do
+        mBoard <- getBoardNow conn uri_
+        case mBoard of
+          Nothing -> pure $ Left $ Left NoSuchBoard
+          Just board -> do
+            powerlevel <- getPowerlevelNow conn board user
+            if powerlevel < BoardOwner
+            then pure $ Left $ Right $ Left Forbidden
+            else
+              if confirmation /= "DELETE"
+              then pure $ Left $ Right $ Right InvalidConfirmation
+              else do
+                -- Remove all quote references first.
+                DB.executeNamed conn
+                  "DELETE FROM quote WHERE board_uri = :board_uri"
+                  [":board_uri" DB.:= uri_]
+
+                -- Delete replies before threads because replies reference threads.
+                DB.executeNamed conn
+                  "DELETE FROM post WHERE board_uri = :board_uri AND thread_no IS NOT NULL"
+                  [":board_uri" DB.:= uri_]
+
+                -- Delete threads before OP posts because threads reference their OP posts.
+                DB.executeNamed conn
+                  "DELETE FROM thread WHERE board_uri = :board_uri"
+                  [":board_uri" DB.:= uri_]
+
+                -- Delete the OP posts.
+                DB.executeNamed conn
+                  "DELETE FROM post WHERE board_uri = :board_uri"
+                  [":board_uri" DB.:= uri_]
+
+                -- Remove banners and moderators.
+                DB.executeNamed conn
+                  "DELETE FROM banner WHERE board_uri = :board_uri"
+                  [":board_uri" DB.:= uri_]
+
+                DB.executeNamed conn
+                  "DELETE FROM board_mod WHERE board_uri = :board_uri"
+                  [":board_uri" DB.:= uri_]
+
+                -- Finally remove the board itself.
+                DB.executeNamed conn
+                  "DELETE FROM board WHERE uri = :uri"
+                  [":uri" DB.:= uri_]
+
+                pure $ Right ()
+
 setBoardSettings :: Context -> Text -> Text -> BoardSettings -> Receipt (Either NoAuthority (Either NoSuchBoard AddModFail)) ()
 setBoardSettings context username_ uri_ boardsettings =
   tryTransaction context $ \conn -> do
