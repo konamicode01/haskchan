@@ -18,7 +18,7 @@ bannerL' board = img_ [id_ "banner", src_ $ "/.phi/varstatic/banner/" <> uri boa
 postformL' :: Board -> Maybe Thread -> Bool -> Html ()
 postformL' board mThread shouldEnforceCaptcha =
   form_ [id_ "postform", action_ "/.phi/post", method_ "post", enctype_ "multipart/form-data"] $ do
-    a_ [class_ "closebutton", href_ "##"] "[X]"
+    a_ [class_ "closebutton", href_ "#"] "[X]"
     input_ [type_ "hidden", name_ "board", value_ $ uri board]
     case mThread of
       Nothing     -> pure ()
@@ -45,7 +45,7 @@ postformL' board mThread shouldEnforceCaptcha =
         tr_ $ do
           td_ $ "Captcha"
           td_ $ do
-            img_ [id_ "captcha", src_ "/.phi/captcha.jpg", loading_ "lazy"]
+            img_ [id_ "captcha", src_ "/.phi/captcha.jpg", loading_ "lazy", title_ "Click to refresh CAPTCHA"]
             input_ [name_ "captcha", required_ ""]
 
 threadBoardnavL' :: Board -> Thread -> Bool -> Bool -> Html ()

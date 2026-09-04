@@ -14,7 +14,7 @@ modformTableL' :: Bool -> Html ()
 modformTableL' loggedIn =
   when loggedIn $ do
   div_ [id_ "modform"] $ do
-    a_ [class_ "closebutton", href_ "##"] "[X]"
+    a_ [class_ "closebutton", href_ "#top", id_ "modform-close"] "[X]"
     table_ [class_ "formtable"] $ do
       tr_ $ do
         td_ $ "Action"

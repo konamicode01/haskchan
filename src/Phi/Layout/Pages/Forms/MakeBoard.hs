@@ -26,7 +26,7 @@ makeBoardPromptL details =
           tr_ $ do
             td_ "Captcha"
             td_ $ do
-              img_ [id_ "captcha", src_ "/.phi/captcha.jpg"]
+              img_ [id_ "captcha", src_ "/.phi/captcha.jpg", title_ "Click to refresh CAPTCHA"]
               input_ [name_ "captcha", required_ "", maxlength_ "32"]
           tr_ $ do
             td_ "Continue"

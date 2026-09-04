@@ -56,7 +56,7 @@ addSecurityHeaders = modifyResponse . mapResponseHeaders $ \headers ->
   : headers
   where
     contentSecurityPolicy =
-      ("content-security-policy", "default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';")
+      ("content-security-policy", "default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';")
     referrerPolicy =
       ("referrer-policy", "same-origin")
     xContentTypeOptions =

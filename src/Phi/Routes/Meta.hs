@@ -14,7 +14,7 @@ import           Web.Fn hiding (okHtml)
 import qualified Web.Fn as Fn (File(..), file)
 
 import           Phi.Auth (mkAuthCookie, elicitUsername, isLoggedIn)
-import           Phi.Captcha (getCaptcha, enforceCaptcha, enforceCaptchaForBoard)
+import           Phi.Captcha (getCaptcha, makeAndSaveNewCaptcha, enforceCaptcha, enforceCaptchaForBoard)
 import           Phi.Context (Context(captcha, static), getReferrer)
 import           Phi.Database.Models (Board(uri), Post(no), PageDetails(..), GlobalSettings(openRegistration), SuperMaybe(..))
 import           Phi.Database.Queries
@@ -60,6 +60,8 @@ metaRoutes context = route context
                 // end ==> loginH
   , method GET // path "captcha.jpg"
                // end ==> captchaH
+  , method GET // path "captcha-refresh.jpg"
+               // end ==> captchaRefreshH
   , method GET // path "log"
                // end ==> logH
   , method GET // path "recent"
@@ -82,6 +84,13 @@ captchaH context = do
   mFilename <- getCaptcha context
   case mFilename of
     Nothing       -> errorH internalServerError500 "Error fetching captcha"
+    Just filename -> sendFile $ captcha context <> "/" <> filename
+
+captchaRefreshH :: Context -> IO (Maybe Response)
+captchaRefreshH context = do
+  mFilename <- makeAndSaveNewCaptcha context
+  case mFilename of
+    Nothing       -> errorH internalServerError500 "Error generating captcha"
     Just filename -> sendFile $ captcha context <> "/" <> filename
 
 settingsH :: Context -> Text -> IO (Maybe Response)

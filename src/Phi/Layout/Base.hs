@@ -20,11 +20,12 @@ baseL' includeThemeSelect details htmlHead htmlBody =
       meta_ [charset_ "utf-8"]
       meta_ [name_ "viewport", content_ "width=device-width, initial-scale=1"]
       meta_ [ httpEquiv_ "content-security-policy"
-            , content_ "default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';"
+            , content_ "default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; form-action 'self';"
             ]
       meta_ [name_ "referrer", content_ "same-origin"]
       link_ [rel_ "icon", type_ "image/x-icon", href_ "/.phi/static/favicon.ico"]
       link_ [rel_ "stylesheet", href_ "/.phi/static/style.css"]
+      script_ [src_ "/.phi/static/captcha.js", defer_ ""] (mempty :: Html ())
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
       htmlHead

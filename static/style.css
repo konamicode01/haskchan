@@ -788,11 +788,9 @@ body.logged-out .post-modbutton {
 }
 
 /* Show moderation controls for logged-in users */
-body.logged-in #modbutton,
-body.logged-in #modform {
+body.logged-in #modbutton {
   display: block;
 }
-
 body.logged-in .post-modbutton {
   display: inline;
 }
@@ -831,4 +829,8 @@ body.logged-in .post-modbutton {
 #site-footer a {
   color: var(--anchor-color);
   font-weight: bold;
+}
+
+#captcha {
+  cursor: pointer;
 }
