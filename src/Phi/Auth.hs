@@ -3,6 +3,8 @@
 module Phi.Auth where
 
 import           Data.Maybe (isJust)
+import           Data.Pool (withResource)
+import qualified Database.SQLite.Simple as DB
 
 import           Data.ByteArray (Bytes)
 import           Data.ByteString (ByteString)
@@ -71,9 +73,16 @@ unAuthCookie context token =
     Nothing                  -> pure Nothing
     Just (username_, expiry) -> do
       time <- getCurrentTime >>= pure . floor . nominalDiffTimeToSeconds . utcTimeToPOSIXSeconds
-      pure $ if time < expiry
-      then Just username_
-      else Nothing
+      if time >= expiry
+      then pure Nothing
+      else do
+        mUser <- withResource (db context) $ \conn ->
+          DB.query conn
+            "SELECT username FROM user WHERE username = ? LIMIT 1"
+            (DB.Only username_) :: IO [DB.Only Text]
+        pure $ case mUser of
+          []    -> Nothing
+          (_:_) -> Just username_
 
 elicitUsername :: Context -> IO (Maybe Text)
 elicitUsername context =

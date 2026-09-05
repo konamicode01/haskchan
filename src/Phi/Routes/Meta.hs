@@ -210,14 +210,8 @@ loginPromptH context = do
       Just details -> okHtml $ loginPromptL details
 
 registerPromptH :: Context -> IO (Maybe Response)
-registerPromptH context = do
-  mDetails <- getPageDetails context Nothing
-  case mDetails of
-    Nothing -> errorH internalServerError500 "Error preparing page"
-    Just details ->
-      if not (openRegistration $ pdGlobalSettings details)
-      then errorH forbidden403 "Registration is closed"
-      else okHtml $ registerPromptL details
+registerPromptH _ =
+  errorH forbidden403 "Registration is closed"
 
 loginH :: Context -> Text -> Text -> Text -> IO (Maybe Response)
 loginH context username_ password work =
@@ -244,19 +238,5 @@ loginH context username_ password work =
     validation = validate $ loginForm username_ password
 
 registerH :: Context -> Text -> Text -> Text -> Text -> IO (Maybe Response)
-registerH context username password passwordAgain work =
-  enforceCaptcha context work (errorH badRequest400 "Wrong or expired captcha") $
-    case validation of
-      Aborted          -> pure Nothing
-      Invalid messages -> errorListH badRequest400 messages
-      Valid newuser -> do
-        mReceipt <- makeUser context newuser
-        case mReceipt of
-          Nothing      -> errorH conflict409 "Error making user"
-          Just receipt ->
-            case receipt of
-              Left ExtantUser         -> errorH badRequest400 "Username is taken"
-              Left ClosedRegistration -> errorH forbidden403 "Registration is closed"
-              Right ()                -> redirect "/.phi/login"
-  where
-    validation = validate $ registerForm username password passwordAgain
+registerH _ _ _ _ _ =
+  errorH forbidden403 "Registration is closed"
