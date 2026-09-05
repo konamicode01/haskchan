@@ -22,6 +22,7 @@ library
     , Phi.Auth
     , Phi.Auth.Crypto
     , Phi.Captcha
+    , Phi.Captchouli
     , Phi.Context
     , Phi.Database
     , Phi.Database.Models

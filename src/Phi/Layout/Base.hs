@@ -26,6 +26,7 @@ baseL' includeThemeSelect details htmlHead htmlBody =
       link_ [rel_ "icon", type_ "image/x-icon", href_ "/.phi/static/favicon.ico"]
       link_ [rel_ "stylesheet", href_ "/.phi/static/style.css"]
       script_ [src_ "/.phi/static/captcha.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/quote.js", defer_ ""] (mempty :: Html ())
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
       htmlHead

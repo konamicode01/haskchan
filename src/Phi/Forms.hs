@@ -324,8 +324,8 @@ boardSettingsForm uri_ title_ description_ mTheme_ anonName_ bumpLimit_ replyLim
       , bsSelectMods      = selectMods
       }
 
-globalSettingsForm :: Theme -> Bool -> Bool -> Bool -> Form GlobalSettings
-globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ =
+globalSettingsForm :: Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> Form GlobalSettings
+globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ =
   ([], globalsettings)
   where
     globalsettings = GlobalSettings
@@ -333,6 +333,7 @@ globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBase
       , openRegistration  = openRegistration_
       , userBoardCreation = userBoardCreation_
       , captchaBaseline   = captchaBaseline_
+      , captchaProvider   = captchaProvider_
       }
 
 modStickinessForm :: Int -> Text -> Form ()

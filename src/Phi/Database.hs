@@ -95,11 +95,12 @@ createTables context =
       \ )"
     DB.execute_ conn
       "CREATE TABLE IF NOT EXISTS global_settings            \
-      \ ( global_theme        INTEGER NOT NULL DEFAULT 0     \
-      \ , open_registration   INTEGER NOT NULL DEFAULT TRUE  \
-      \ , user_board_creation INTEGER NOT NULL DEFAULT FALSE \
-      \ , captcha_baseline    INTEGER NOT NULL DEFAULT TRUE  \
-      \ )"
+       \ ( global_theme        INTEGER NOT NULL DEFAULT 0     \
+       \ , open_registration   INTEGER NOT NULL DEFAULT TRUE  \
+       \ , user_board_creation INTEGER NOT NULL DEFAULT FALSE \
+       \ , captcha_baseline    INTEGER NOT NULL DEFAULT TRUE  \
+       \ , captcha_provider    INTEGER NOT NULL DEFAULT 0     \
+       \ )"
     _ <- DB.withTransaction conn $ do
       [Only n] <- DB.query_ conn
         "SELECT COUNT(*) FROM global_settings"

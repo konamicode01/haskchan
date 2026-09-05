@@ -32,6 +32,12 @@ globalSettingsPromptL details =
             td_ "Require captcha globally"
             td_ $ input_ (name_ "captcha-baseline" : type_ "checkbox" : check captchaBaseline)
           tr_ $ do
+            td_ "CAPTCHA provider"
+            td_ $
+              select_ [name_ "captcha-provider"] $ do
+                option_ (value_ "0" : selectCaptchaProvider HaskchanCaptcha) "Haskchan CAPTCHA"
+                option_ (value_ "1" : selectCaptchaProvider CaptchouliCaptcha) "Captchouli"
+          tr_ $ do
             td_ "Continue"
             td_ $ input_ [type_ "submit", value_ "Submit"]
   where
@@ -39,6 +45,11 @@ globalSettingsPromptL details =
     selectGlobalTheme theme_
       | theme_ == globalTheme globalsettings = [selected_ ""]
       | otherwise                            = []
+
+    selectCaptchaProvider provider_
+      | provider_ == captchaProvider globalsettings = [selected_ ""]
+      | otherwise                                   = []
+
     check accessor
       | accessor globalsettings = [checked_]
       | otherwise               = []

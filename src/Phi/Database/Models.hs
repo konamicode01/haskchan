@@ -103,11 +103,17 @@ data Log = Log
   , logReason :: Text
   } deriving (Eq, Show)
 
+data CaptchaProvider
+  = HaskchanCaptcha
+  | CaptchouliCaptcha
+  deriving (Eq, Show)
+
 data GlobalSettings = GlobalSettings
   { globalTheme :: Theme
   , openRegistration :: Bool
   , userBoardCreation :: Bool
   , captchaBaseline :: Bool
+  , captchaProvider :: CaptchaProvider
   } deriving (Eq, Show)
 
 instance Default GlobalSettings where
@@ -116,6 +122,7 @@ instance Default GlobalSettings where
     , openRegistration = True
     , userBoardCreation = False
     , captchaBaseline = True
+    , captchaProvider = HaskchanCaptcha
     }
 
 data CookieSettings = CookieSettings
@@ -273,6 +280,13 @@ instance FromParam IndexViewPolicy where
   fromParam []    = Left ParamMissing
   fromParam _     = Left ParamTooMany
 
+instance FromParam CaptchaProvider where
+  fromParam ["0"] = Right HaskchanCaptcha
+  fromParam ["1"] = Right CaptchouliCaptcha
+  fromParam [_]   = Left ParamUnparsable
+  fromParam []    = Left ParamMissing
+  fromParam _     = Left ParamTooMany
+
 instance FromParam Theme where
   fromParam ["0"] = Right Phichannel
   fromParam ["1"] = Right Nanochan
@@ -316,6 +330,17 @@ instance Eq (Html ()) where
 takeInt :: Field -> Ok Int
 takeInt (Field (SQLInteger i) _) = Ok . fromIntegral $ i
 takeInt f                        = returnError ConversionFailed f "need an int"
+
+instance ToField CaptchaProvider where
+  toField HaskchanCaptcha   = toField (0 :: Int)
+  toField CaptchouliCaptcha = toField (1 :: Int)
+
+instance FromField CaptchaProvider where
+  fromField f =
+    case takeInt f of
+      Ok 0 -> Ok HaskchanCaptcha
+      Ok 1 -> Ok CaptchouliCaptcha
+      _    -> returnError ConversionFailed f "encountered disallowed value (allowed values: 0, 1)"
 
 instance ToField Theme where
   toField Phichannel = toField (0 :: Int)
@@ -496,15 +521,16 @@ instance FromRow User where
   fromRow = User <$> field <*> field <*> field <*> field
 
 instance ToRow GlobalSettings where
-  toRow (GlobalSettings globalTheme_ openRegistraion_ userBoardCreation_ captchaBaseline_) =
+  toRow (GlobalSettings globalTheme_ openRegistraion_ userBoardCreation_ captchaBaseline_ captchaProvider_) =
     [ toField globalTheme_
     , toField openRegistraion_
     , toField userBoardCreation_
     , toField captchaBaseline_
+    , toField captchaProvider_
     ]
 
 instance FromRow GlobalSettings where
-  fromRow = GlobalSettings <$> field <*> field <*> field <*> field
+  fromRow = GlobalSettings <$> field <*> field <*> field <*> field <*> field
 
 instance ToRow Log where
   toRow = logToRow

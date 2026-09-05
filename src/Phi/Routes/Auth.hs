@@ -14,7 +14,7 @@ import qualified Web.Fn as Fn (File, file)
 import           Phi.Auth (elicitUsername, isLoggedIn)
 import           Phi.Captcha (enforceCaptcha)
 import           Phi.Context (Context, getReferrerAsText)
-import           Phi.Database.Models (BoardPermission, IndexViewPolicy, Theme, BlankMaybe(..), SuperMaybe(..), PageDetails(..), User(admin), GlobalSettings(userBoardCreation, openRegistration))
+import           Phi.Database.Models (BoardPermission, IndexViewPolicy, Theme, BlankMaybe(..), SuperMaybe(..), PageDetails(..), User(admin), GlobalSettings(userBoardCreation, openRegistration), CaptchaProvider(..))
 import           Phi.Database.Queries (getPageDetails, addBanner, deleteBanners, getBanners, getBoardAndModTuples, getBoards, getGlobalSettings, getUser, getUserAndBoards, makeBoard, setBoardSettings, deleteBoard, setGlobalSettings, moderate)
 import           Phi.Database.Queries.Types
 import           Phi.Files (readableFilesize)
@@ -98,6 +98,7 @@ authRoutes context = route context
                 // param "open-registration"
                 // param "user-board-creation"
                 // param "captcha-baseline"
+                // param "captcha-provider"
                 // end !=> globalSettingsH
   ]
 
@@ -338,8 +339,8 @@ globalSettingsPromptH context = do
                   Nothing      -> errorH internalServerError500 "Error fetching existing boards"
                   Just details -> okHtml $ globalSettingsPromptL details
 
-globalSettingsH :: Context -> Theme -> Bool -> Bool -> Bool -> IO (Maybe Response)
-globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ = do
+globalSettingsH :: Context -> Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> IO (Maybe Response)
+globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ = do
   case validation of
     Aborted              -> pure Nothing
     Invalid messages     -> errorListH badRequest400 messages
@@ -358,7 +359,7 @@ globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captch
                 Right ()          -> redirect "/.phi/auth/settings"
   where
     validation = validate $
-      globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_
+      globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_
 
 modH :: Context -> Text -> SuperMaybe Int -> SuperMaybe Bool -> Text -> [Text] -> IO (Maybe Response)
 modH context modActionName (SuperMaybe mStickiness) (SuperMaybe mBoolean) reason postStrings =

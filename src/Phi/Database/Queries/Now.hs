@@ -949,11 +949,12 @@ getLogsNow conn =
 setGlobalSettingsNow :: DB.Connection -> GlobalSettings -> IO ()
 setGlobalSettingsNow conn globalsettings =
   DB.executeNamed conn
-    "UPDATE global_settings SET (global_theme, open_registration, user_board_creation, captcha_baseline) = (:global_theme, :open_registration, :user_board_creation, :captcha_baseline) WHERE ROWID = 1"
+    "UPDATE global_settings SET (global_theme, open_registration, user_board_creation, captcha_baseline, captcha_provider) = (:global_theme, :open_registration, :user_board_creation, :captcha_baseline, :captcha_provider) WHERE ROWID = 1"
     [ ":global_theme"        := globalTheme globalsettings
     , ":open_registration"   := openRegistration globalsettings
     , ":user_board_creation" := userBoardCreation globalsettings
     , ":captcha_baseline"    := captchaBaseline globalsettings
+    , ":captcha_provider"    := captchaProvider globalsettings
     ]
 
 -- Delete a post and any referencing quotes, and return the post's filehash if

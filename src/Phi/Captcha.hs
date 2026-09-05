@@ -25,8 +25,12 @@ import           Graphics.Rasterific
 import           Graphics.Rasterific.Texture
 
 import           Phi.Context (Context(captcha, font))
-import           Phi.Database.Models (GlobalSettings(captchaBaseline))
+import           Phi.Database.Models
+  ( CaptchaProvider(..)
+  , GlobalSettings(captchaBaseline, captchaProvider)
+  )
 import           Phi.Database.Queries (getGlobalSettings)
+import qualified Phi.Captchouli as Captchouli
 
 textGradient
   :: (Float, Float, Float, Float, Float, Float, Float, Float, Float)
@@ -163,8 +167,8 @@ makeKey text =
 mkFilename :: (Integral a, Show a) => a -> String -> FilePath
 mkFilename expiry key = show expiry <> "_" <> key <> ".jpg"
 
-makeAndSaveNewCaptcha :: Context -> IO (Maybe FilePath)
-makeAndSaveNewCaptcha context = do
+makeAndSaveNewHaskchanCaptcha :: Context -> IO (Maybe FilePath)
+makeAndSaveNewHaskchanCaptcha context = do
   eFont <- loadFontFile (font context)
   case eFont of
     Left  _    -> pure Nothing
@@ -180,6 +184,20 @@ makeAndSaveNewCaptcha context = do
           saveJpgImage 90 filepath (ImageRGBA8 image)
           pure $ Just filename
 
+getCaptchaProvider :: Context -> IO CaptchaProvider
+getCaptchaProvider context = do
+  mSettings <- getGlobalSettings context
+  pure $ case mSettings of
+    Just settings -> captchaProvider settings
+    Nothing       -> HaskchanCaptcha
+
+makeAndSaveNewCaptcha :: Context -> IO (Maybe FilePath)
+makeAndSaveNewCaptcha context = do
+  provider <- getCaptchaProvider context
+  case provider of
+    HaskchanCaptcha   -> makeAndSaveNewHaskchanCaptcha context
+    CaptchouliCaptcha -> Captchouli.makeAndSaveNewCaptchouli context
+
 -- Safe version of (!!).
 at :: [a] -> Int -> Maybe a
 at xs n =
@@ -189,12 +207,18 @@ at xs n =
 
 getCaptcha :: Context -> IO (Maybe FilePath)
 getCaptcha context = do
-  filenames <- getAllCaptchas context Nothing
-  if length filenames < 256
-  then makeAndSaveNewCaptcha context
-  else do
-    index <- (`mod` length filenames) <$> getRandomInt
-    pure $ filenames `at` index
+  provider <- getCaptchaProvider context
+  case provider of
+    HaskchanCaptcha -> do
+      filenames <- getAllCaptchas context Nothing
+      if length filenames < 256
+      then makeAndSaveNewHaskchanCaptcha context
+      else do
+        index <- (`mod` length filenames) <$> getRandomInt
+        pure $ filenames `at` index
+
+    CaptchouliCaptcha ->
+      Captchouli.getCaptchouli context
 
 getAllCaptchas :: Context -> Maybe Text -> IO [FilePath]
 getAllCaptchas context mMatch = do
@@ -241,8 +265,8 @@ getAllCaptchas context mMatch = do
     isHex char =
       ord char >= 48 && ord char < 58 || ord char >= 97 && ord char < 103
 
-checkCaptcha :: Context -> Text -> IO Bool
-checkCaptcha context work = do
+checkHaskchanCaptcha :: Context -> Text -> IO Bool
+checkHaskchanCaptcha context work = do
   filenames <- getAllCaptchas context (Just work)
   mapM_ delete filenames
   pure $ not . null $ filenames
@@ -251,6 +275,13 @@ checkCaptcha context work = do
       _ <- try $ removeFile $ captcha context <> "/" <> filename
         :: IO (Either SomeException ())
       pure ()
+
+checkCaptcha :: Context -> Text -> IO Bool
+checkCaptcha context work = do
+  provider <- getCaptchaProvider context
+  case provider of
+    HaskchanCaptcha   -> checkHaskchanCaptcha context work
+    CaptchouliCaptcha -> Captchouli.checkCaptchouli context work
 
 enforceCaptchaIf :: Context -> Bool -> Text -> IO a -> IO a -> IO a
 enforceCaptchaIf context condition work failure success
