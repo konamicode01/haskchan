@@ -9,7 +9,7 @@ import           Data.Text.Encoding (encodeUtf8)
 
 import           Network.HTTP.Types.Method
 import           Network.HTTP.Types.Status
-import           Network.Wai (Response)
+import           Network.Wai (Response, mapResponseHeaders)
 import           Web.Fn hiding (okHtml)
 import qualified Web.Fn as Fn (File(..), file)
 
@@ -84,14 +84,22 @@ captchaH context = do
   mFilename <- getCaptcha context
   case mFilename of
     Nothing       -> errorH internalServerError500 "Error fetching captcha"
-    Just filename -> sendFile $ captcha context <> "/" <> filename
+    Just filename -> addCaptchaHeaders <$> sendFile (captcha context <> "/" <> filename)
 
 captchaRefreshH :: Context -> IO (Maybe Response)
 captchaRefreshH context = do
   mFilename <- makeAndSaveNewCaptcha context
   case mFilename of
     Nothing       -> errorH internalServerError500 "Error generating captcha"
-    Just filename -> sendFile $ captcha context <> "/" <> filename
+    Just filename -> addCaptchaHeaders <$> sendFile (captcha context <> "/" <> filename)
+
+addCaptchaHeaders :: Maybe Response -> Maybe Response
+addCaptchaHeaders =
+  fmap $ mapResponseHeaders $ \headers ->
+    [ ("cache-control", "no-store, no-cache, must-revalidate, private")
+    , ("pragma", "no-cache")
+    , ("expires", "0")
+    ] ++ headers
 
 settingsH :: Context -> Text -> IO (Maybe Response)
 settingsH context themeName =
