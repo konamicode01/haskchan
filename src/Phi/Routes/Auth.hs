@@ -149,7 +149,7 @@ makeBoardPromptH context = do
               case mDetails of
                 Nothing -> errorH internalServerError500 "Error preparing page"
                 Just details ->
-                  if not (openRegistration $ pdGlobalSettings details) && not (admin user)
+                  if not (userBoardCreation $ pdGlobalSettings details) && not (admin user)
                   then errorH forbidden403 "You cannot make a board"
                   else okHtml $ makeBoardPromptL details
 
