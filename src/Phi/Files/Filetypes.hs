@@ -64,6 +64,9 @@ isMp3 front =
 isWebp :: ByteString -> Bool
 isWebp front = "RIFF" `isPrefixOf` front && "WEBPVP8" `isPrefixOf` BS.drop 8 front
 
+isPdf :: ByteString -> Bool
+isPdf = isPrefixOf "%PDF-"
+
 isUtf8 :: ByteString -> Bool
 isUtf8 front =
   case decodeUtf8' front of
@@ -74,7 +77,8 @@ type Filetype = (Text, Text)
 
 filetypes :: [(Filetype, ByteString -> Bool)]
 filetypes =
-  [ (("text/plain", ".txt"),      isUtf8)
+  [ (("application/pdf", ".pdf"),  isPdf)
+  , (("text/plain", ".txt"),      isUtf8)
   , (("image/jpeg", ".jpg"),      isPrefixOf "\xff\xd8\xff")
   , (("image/png", ".png"),       isPrefixOf "\x89PNG")
   , (("image/gif", ".gif"),       isPrefixOf "GIF")
