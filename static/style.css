@@ -834,3 +834,29 @@ body.logged-in .post-modbutton {
 #captcha {
   cursor: pointer;
 }
+
+#home-branding {
+  text-align: center;
+  margin: 12px 0 18px;
+}
+
+#home-logo {
+  display: block;
+  width: 420px;
+  max-width: 80%;
+  height: auto;
+  margin: 0 auto 8px;
+}
+
+#home-branding #pagetitle {
+  margin: 0;
+}
+
+/* Haskchan homepage logo */
+#home-branding img#home-logo {
+  display: block !important;
+  width: 340px !important;
+  max-width: 340px !important;
+  height: auto !important;
+  margin: 0 auto 10px !important;
+}
