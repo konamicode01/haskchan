@@ -99,6 +99,7 @@ authRoutes context = route context
                 // param "user-board-creation"
                 // param "captcha-baseline"
                 // param "captcha-provider"
+          // param "origin-indicators"
                 // end !=> globalSettingsH
   ]
 
@@ -339,8 +340,8 @@ globalSettingsPromptH context = do
                   Nothing      -> errorH internalServerError500 "Error fetching existing boards"
                   Just details -> okHtml $ globalSettingsPromptL details
 
-globalSettingsH :: Context -> Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> IO (Maybe Response)
-globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ = do
+globalSettingsH :: Context -> Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> Bool -> IO (Maybe Response)
+globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ originIndicators_ = do
   case validation of
     Aborted              -> pure Nothing
     Invalid messages     -> errorListH badRequest400 messages
@@ -359,7 +360,7 @@ globalSettingsH context globalTheme_ openRegistration_ userBoardCreation_ captch
                 Right ()          -> redirect "/.phi/auth/settings"
   where
     validation = validate $
-      globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_
+      globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ originIndicators_
 
 modH :: Context -> Text -> SuperMaybe Int -> SuperMaybe Bool -> Text -> [Text] -> IO (Maybe Response)
 modH context modActionName (SuperMaybe mStickiness) (SuperMaybe mBoolean) reason postStrings =

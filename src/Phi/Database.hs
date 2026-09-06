@@ -44,6 +44,7 @@ createTables context =
       \ , nomarkup  TEXT    NOT NULL                                                \
       \ , message   TEXT    NOT NULL                                                \
       \ , file_hash TEXT                                                            \
+      \ , origin    TEXT    NOT NULL DEFAULT 'clearnet'                            \
       \ , PRIMARY KEY (board_uri, no)                                               \
       \ , FOREIGN KEY (board_uri, thread_no) REFERENCES thread (board_uri, post_no) \
       \ , FOREIGN KEY (file_hash) REFERENCES file (hash)                            \
@@ -100,6 +101,8 @@ createTables context =
        \ , user_board_creation INTEGER NOT NULL DEFAULT FALSE \
        \ , captcha_baseline    INTEGER NOT NULL DEFAULT TRUE  \
        \ , captcha_provider    INTEGER NOT NULL DEFAULT 0     \
+        \ , origin_indicators   INTEGER NOT NULL DEFAULT TRUE  \
+       \ , origin_indicators  INTEGER NOT NULL DEFAULT 1     \
        \ )"
     _ <- DB.withTransaction conn $ do
       [Only n] <- DB.query_ conn

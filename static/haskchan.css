@@ -218,3 +218,80 @@ a {
 #settings-menu-content > a:hover {
   color: #ffffff;
 }
+
+.post[data-origin="tor"],
+.post[data-origin="i2p"],
+.post[data-origin="clearnet"] {
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.post[data-origin="tor"] {
+    background-image: url('/.phi/static/tor.png');
+}
+
+.post[data-origin="i2p"] {
+    background-image: url('/.phi/static/i2p.png');
+}
+
+.post[data-origin="clearnet"] {
+    background-image: url('/.phi/static/clearnet.png');
+}
+
+
+.post[data-origin="tor"],
+.post[data-origin="i2p"],
+.post[data-origin="clearnet"] {
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: auto;
+}
+
+.post[data-origin="tor"] {
+    background-image: url('/.phi/static/tor.png');
+}
+
+.post[data-origin="i2p"] {
+    background-image: url('/.phi/static/i2p.png');
+}
+
+.post[data-origin="clearnet"] {
+    background-image: url('/.phi/static/clearnet.png');
+}
+
+
+/* Network origin indicators */
+.post[data-origin="tor"],
+.post[data-origin="i2p"],
+.post[data-origin="clearnet"] {
+    background-repeat: no-repeat;
+    background-position: right 8px top 8px;
+    background-size: 28px 28px;
+    padding-right: 42px;
+}
+
+.post[data-origin="tor"] {
+    background-image: url('/.phi/static/tor.png');
+}
+
+.post[data-origin="i2p"] {
+    background-image: url('/.phi/static/i2p.png');
+}
+
+.post[data-origin="clearnet"] {
+    background-image: url('/.phi/static/clearnet.png');
+}
+
+
+body.origin-indicators-disabled .post[data-origin="tor"],
+body.origin-indicators-disabled .post[data-origin="i2p"],
+body.origin-indicators-disabled .post[data-origin="clearnet"] {
+    background-image: none;
+}
+
+body.origin-indicators-disabled .post[data-origin="tor"],
+body.origin-indicators-disabled .post[data-origin="i2p"],
+body.origin-indicators-disabled .post[data-origin="clearnet"] {
+    padding-right: 0;
+}
+

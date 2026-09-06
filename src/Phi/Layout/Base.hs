@@ -30,7 +30,12 @@ baseL' includeThemeSelect details htmlHead htmlBody =
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
       htmlHead
-    body_ [class_ $ if pdLoggedIn details then "logged-in" else "logged-out"] $ do
+    body_ [class_ $
+      (if pdLoggedIn details then "logged-in" else "logged-out")
+      <> if originIndicators (pdGlobalSettings details)
+         then " origin-indicators-enabled"
+         else " origin-indicators-disabled"
+      ] $ do
       div_ [id_ "top"] ""
       nav_ [id_ "topnav"] $ do
         ul_ [id_ "topnav-links", class_ "flat"] $ do

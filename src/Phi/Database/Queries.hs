@@ -20,7 +20,7 @@ import qualified Database.SQLite.Simple as DB
 
 import qualified Web.Fn as Fn (File(..))
 
-import           Phi.Context (Context(..))
+import           Phi.Context (Context(..), requestOrigin)
 import           Phi.Database.Models
 import           Phi.Database.Queries.Now
 import           Phi.Database.Queries.Types
@@ -264,6 +264,8 @@ makeOp context mUsername uri_ newpost fnFile =
           NilThreadsNilReplies -> pure $ Left $ Right $ Left PermissionFail
   where
     continue conn board = do
+      let origin_ = requestOrigin context
+
       -- Evaluate tripcode and capcode.
       (tripcode_, capcode_) <- makeCodes context conn mUsername board newpost
 
@@ -278,7 +280,7 @@ makeOp context mUsername uri_ newpost fnFile =
       case emFile of
         Left fileRejected -> pure $ Left $ Right $ Right fileRejected
         Right mFile -> do
-          post <- insertThreadPostNow conn board newpost tripcode_ capcode_ mFile
+          post <- insertThreadPostNow conn board newpost tripcode_ capcode_ mFile origin_
           insertThreadNow conn board post
           pure $ Right post
 
@@ -296,6 +298,8 @@ makeReply context mUsername uri_ no_ newpost fnFile =
           NilThreadsNilReplies -> pure (Left $ Right $ Right $ Left $ Left PermissionFail, nofiles)
   where
     continue conn board = do
+      let origin_ = requestOrigin context
+
       eThread <- getThreadNow conn board no_
       case eThread of
         Left threadFate -> pure (Left $ Right $ Left threadFate, nofiles)
@@ -320,7 +324,7 @@ makeReply context mUsername uri_ no_ newpost fnFile =
               case emFile of
                 Left fileRejected -> pure (Left $ Right $ Right $ Right fileRejected, nofiles)
                 Right mFile -> do
-                  (post, doomedFiles) <- insertThreadReplyNow conn board thread newpost tripcode_ capcode_ mFile
+                  (post, doomedFiles) <- insertThreadReplyNow conn board thread newpost tripcode_ capcode_ mFile origin_
                   pure (Right post, doomedFiles)
 
 makeUser :: Context -> NewUser -> Receipt RegisterFail ()

@@ -324,16 +324,17 @@ boardSettingsForm uri_ title_ description_ mTheme_ anonName_ bumpLimit_ replyLim
       , bsSelectMods      = selectMods
       }
 
-globalSettingsForm :: Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> Form GlobalSettings
-globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ =
+globalSettingsForm :: Theme -> Bool -> Bool -> Bool -> CaptchaProvider -> Bool -> Form GlobalSettings
+globalSettingsForm globalTheme_ openRegistration_ userBoardCreation_ captchaBaseline_ captchaProvider_ originIndicators_ =
   ([], globalsettings)
   where
     globalsettings = GlobalSettings
-      { globalTheme       = globalTheme_
-      , openRegistration  = openRegistration_
+      { globalTheme = globalTheme_
+      , openRegistration = openRegistration_
       , userBoardCreation = userBoardCreation_
-      , captchaBaseline   = captchaBaseline_
-      , captchaProvider   = captchaProvider_
+      , captchaBaseline = captchaBaseline_
+      , captchaProvider = captchaProvider_
+      , originIndicators = originIndicators_
       }
 
 modStickinessForm :: Int -> Text -> Form ()

@@ -90,7 +90,11 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
       span_ [class_ "sidearrows"] ">>"
     if isOp
     then
-      article_ [id_ $ "post" <> (T.pack . show $ no post), class_ "post op"] $ do
+      article_
+        [ id_ $ "post" <> (T.pack . show $ no post)
+        , class_ "post op"
+        , data_ "origin" (pOrigin post)
+        ] $ do
         case mFile of
           Nothing   -> pure ()
           Just file -> postFileHeader file <> postFile file
@@ -98,7 +102,11 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
         blockquote_ [class_ "post-message"] $
           message post
     else
-      article_ [id_ $ "post" <> (T.pack . show $ no post), class_ "post"] $ do
+      article_
+        [ id_ $ "post" <> (T.pack . show $ no post)
+        , class_ "post"
+        , data_ "origin" (pOrigin post)
+        ] $ do
         postHeader
         case mFile of
           Nothing   -> pure ()

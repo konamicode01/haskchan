@@ -650,8 +650,8 @@ insertBoardNow conn user newboard =
     , ":owner_name"        := username user
     ]
 
-insertPostNow :: DB.Connection -> Board -> Maybe Thread -> NewPost -> Bool -> Maybe Text -> Maybe Text -> Maybe File -> IO Post
-insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile = do
+insertPostNow :: DB.Connection -> Board -> Maybe Thread -> NewPost -> Bool -> Maybe Text -> Maybe Text -> Maybe File -> Text -> IO Post
+insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile origin_ = do
   -- Insert/update the post's file if the post has a file.
   case mFile of
     Nothing   -> pure ()
@@ -677,8 +677,8 @@ insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile = do
 
   -- Insert the post.
   DB.executeNamed conn
-    "INSERT INTO post (board_uri, no, thread_no, sage, name, tripcode, capcode, email, subject, nomarkup, message, file_hash) \
-    \ VALUES (:uri, (SELECT total_posts + 1 FROM board WHERE uri = :uri), :thread_no, :sage, :name, :tripcode, :capcode, :email, :subject, :nomarkup, :message, :file_hash)"
+    "INSERT INTO post (board_uri, no, thread_no, sage, name, tripcode, capcode, email, subject, nomarkup, message, file_hash, origin) \
+    \ VALUES (:uri, (SELECT total_posts + 1 FROM board WHERE uri = :uri), :thread_no, :sage, :name, :tripcode, :capcode, :email, :subject, :nomarkup, :message, :file_hash, :origin)"
     [ ":uri"       := uri board
     , ":thread_no" := tPostNo <$> mThread
     , ":sage"      := sage_
@@ -690,6 +690,7 @@ insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile = do
     , ":nomarkup"  := npNomarkup newpost
     , ":message"   := messageWithQuotelinks
     , ":file_hash" := hash <$> mFile
+    , ":origin"    := origin_
     ]
 
   -- Get the just-inserted post.
@@ -719,16 +720,16 @@ insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile = do
   -- Return the inserted post.
   pure post
 
-insertThreadPostNow :: DB.Connection -> Board -> NewPost -> Maybe Text -> Maybe Text -> Maybe File -> IO Post
-insertThreadPostNow conn board newpost tripcode_ capcode_ mFile = do
+insertThreadPostNow :: DB.Connection -> Board -> NewPost -> Maybe Text -> Maybe Text -> Maybe File -> Text -> IO Post
+insertThreadPostNow conn board newpost tripcode_ capcode_ mFile origin_ = do
   -- Insert the post.
-  insertPostNow conn board Nothing newpost False tripcode_ capcode_ mFile
+  insertPostNow conn board Nothing newpost False tripcode_ capcode_ mFile origin_
 
-insertThreadReplyNow :: DB.Connection -> Board -> Thread -> NewPost -> Maybe Text -> Maybe Text -> Maybe File -> IO (Post, [File])
-insertThreadReplyNow conn board thread newpost tripcode_ capcode_ mFile = do
+insertThreadReplyNow :: DB.Connection -> Board -> Thread -> NewPost -> Maybe Text -> Maybe Text -> Maybe File -> Text -> IO (Post, [File])
+insertThreadReplyNow conn board thread newpost tripcode_ capcode_ mFile origin_ = do
   -- Insert the post.
   let sage_ = npEmail newpost == "sage" || bumplocked thread
-  post <- insertPostNow conn board (Just thread) newpost sage_ tripcode_ capcode_ mFile
+  post <- insertPostNow conn board (Just thread) newpost sage_ tripcode_ capcode_ mFile origin_
 
   -- Update the thread's last_activity.
   time <- roundDownUTCTime <$> getCurrentTime
@@ -949,12 +950,13 @@ getLogsNow conn =
 setGlobalSettingsNow :: DB.Connection -> GlobalSettings -> IO ()
 setGlobalSettingsNow conn globalsettings =
   DB.executeNamed conn
-    "UPDATE global_settings SET (global_theme, open_registration, user_board_creation, captcha_baseline, captcha_provider) = (:global_theme, :open_registration, :user_board_creation, :captcha_baseline, :captcha_provider) WHERE ROWID = 1"
+    "UPDATE global_settings SET (global_theme, open_registration, user_board_creation, captcha_baseline, captcha_provider, origin_indicators) = (:global_theme, :open_registration, :user_board_creation, :captcha_baseline, :captcha_provider, :origin_indicators) WHERE ROWID = 1"
     [ ":global_theme"        := globalTheme globalsettings
     , ":open_registration"   := openRegistration globalsettings
     , ":user_board_creation" := userBoardCreation globalsettings
     , ":captcha_baseline"    := captchaBaseline globalsettings
     , ":captcha_provider"    := captchaProvider globalsettings
+    , ":origin_indicators"   := originIndicators globalsettings
     ]
 
 -- Delete a post and any referencing quotes, and return the post's filehash if

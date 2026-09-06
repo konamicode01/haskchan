@@ -4,6 +4,7 @@ module Phi.Context where
 
 import qualified Data.ByteString as BSL (ByteString)
 import           Data.Text (Text)
+import qualified Data.Text as T
 import           Data.Text.Encoding (decodeUtf8')
 import           Network.Wai (requestHeaders)
 import           Web.Cookie
@@ -86,3 +87,20 @@ getReferrer context = mReferrer
 getReferrerAsText :: Context -> Maybe Text
 getReferrerAsText = maybe Nothing decode . getReferrer
   where decode = either (const Nothing) Just . decodeUtf8'
+
+requestOrigin :: Context -> Text
+requestOrigin context =
+  case getHost context of
+    Just host
+      | T.isSuffixOf ".onion" host -> "tor"
+      | T.isSuffixOf ".i2p" host   -> "i2p"
+      | otherwise                  -> "clearnet"
+    Nothing -> "clearnet"
+  where
+    getHost ctx =
+      case lookup "Host" $ requestHeaders waiRequest of
+        Nothing -> Nothing
+        Just value ->
+          either (const Nothing) Just (decodeUtf8' value)
+
+    waiRequest = fst $ request context

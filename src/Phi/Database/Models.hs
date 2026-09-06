@@ -68,6 +68,7 @@ data Post = Post
   , nomarkup :: Text
   , message :: Html ()
   , fileHash :: Maybe Text
+  , pOrigin :: Text
   } deriving (Eq, Show)
 
 data File = File
@@ -114,6 +115,7 @@ data GlobalSettings = GlobalSettings
   , userBoardCreation :: Bool
   , captchaBaseline :: Bool
   , captchaProvider :: CaptchaProvider
+  , originIndicators :: Bool
   } deriving (Eq, Show)
 
 instance Default GlobalSettings where
@@ -123,6 +125,7 @@ instance Default GlobalSettings where
     , userBoardCreation = False
     , captchaBaseline = True
     , captchaProvider = HaskchanCaptcha
+    , originIndicators = True
     }
 
 data CookieSettings = CookieSettings
@@ -466,7 +469,7 @@ instance FromRow Thread where
   fromRow = Thread <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance ToRow Post where
-  toRow (Post pBoardUri_ no_ pThreadNo_ sage_ name_ tripcode_ capcode_ email_ subject_ datetime_ nomarkup_ message_ fileHash_) =
+  toRow (Post pBoardUri_ no_ pThreadNo_ sage_ name_ tripcode_ capcode_ email_ subject_ datetime_ nomarkup_ message_ fileHash_ pOrigin_) =
     [ toField pBoardUri_
     , toField no_
     , toField pThreadNo_
@@ -480,10 +483,11 @@ instance ToRow Post where
     , toField nomarkup_
     , toField message_
     , toField fileHash_
+    , toField pOrigin_
     ]
 
 instance FromRow Post where
-  fromRow = Post <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = Post <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance ToRow File where
   toRow (File hash_ size_ ext_ hasThumb_ thumbWidth_ thumbHeight_ mime_) =
@@ -521,16 +525,17 @@ instance FromRow User where
   fromRow = User <$> field <*> field <*> field <*> field
 
 instance ToRow GlobalSettings where
-  toRow (GlobalSettings globalTheme_ openRegistraion_ userBoardCreation_ captchaBaseline_ captchaProvider_) =
+  toRow (GlobalSettings globalTheme_ openRegistraion_ userBoardCreation_ captchaBaseline_ captchaProvider_ originIndicators_) =
     [ toField globalTheme_
     , toField openRegistraion_
     , toField userBoardCreation_
     , toField captchaBaseline_
     , toField captchaProvider_
+    , toField originIndicators_
     ]
 
 instance FromRow GlobalSettings where
-  fromRow = GlobalSettings <$> field <*> field <*> field <*> field <*> field
+  fromRow = GlobalSettings <$> field <*> field <*> field <*> field <*> field <*> field
 
 instance ToRow Log where
   toRow = logToRow

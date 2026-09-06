@@ -38,6 +38,9 @@ globalSettingsPromptL details =
                 option_ (value_ "0" : selectCaptchaProvider HaskchanCaptcha) "Haskchan CAPTCHA"
                 option_ (value_ "1" : selectCaptchaProvider CaptchouliCaptcha) "Captchouli"
           tr_ $ do
+            td_ "Show network origin indicators"
+            td_ $ input_ (name_ "origin-indicators" : type_ "checkbox" : check originIndicators)
+          tr_ $ do
             td_ "Continue"
             td_ $ input_ [type_ "submit", value_ "Submit"]
   where
