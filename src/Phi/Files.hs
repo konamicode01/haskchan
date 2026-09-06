@@ -11,7 +11,9 @@ import           Crypto.Hash.Conduit (hashFile)
 import           Crypto.Hash.Algorithms (SHA3_256)
 import           Data.ByteString (hGet)
 import           Data.Text (Text)
+import qualified Web.Fn as Fn (File(..))
 import qualified Data.Text as T (dropEnd, isPrefixOf, isSuffixOf, pack, unpack)
+import qualified Web.Fn as Fn (File(..))
 import           System.Directory (createDirectoryIfMissing, removeFile, renameFile)
 import           System.IO (hFileSize, IOMode(ReadMode), withBinaryFile)
 
@@ -49,8 +51,8 @@ bannerMaxSize :: Int
 bannerMaxSize = 512 * 1024
 
 prepareForPost :: Context -> Fn.File -> IO (Either FileRejected File)
-prepareForPost context =
-  prepare context postMaxSize Nothing $ \(filepath, hash_, ext_, size_, mime_) -> do
+prepareForPost context fnFile =
+  prepare context postMaxSize Nothing (\(filepath, hash_, ext_, size_, mime_) -> do
     -- Move the file from its temporary location to its permanent location.
     let location = static context <> "/file/" <> hash_ <> T.unpack ext_
     createDirectoryIfMissing True $ static context <> "/file"
@@ -70,12 +72,14 @@ prepareForPost context =
       , thumbWidth = fst <$> thumbWidthHeight
       , thumbHeight = snd <$> thumbWidthHeight
       , mime = if isNothing thumbWidthHeight then toAudio mime_ else mime_
+      , originalName = Fn.fileName fnFile
       -- ^ If thumbnailing failed and this is a video file, assume there's no
       -- video stream and this is actually an audio file. If thumbnailing
       -- fails for some other reason this will falsely trigger. It doesn't
       -- ever happen for video/x-m4v though, that always stays the same.
       }
 
+    ) fnFile
   where
     shouldThumb :: Maybe Text -> Bool
     shouldThumb Nothing  = False

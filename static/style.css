@@ -443,8 +443,16 @@ input[type="submit"]:hover {
 /* Posts */
 .sidearrows {
   float: left;
-  margin-right: 3px;
+  margin-right: 5px;
   color: var(--sidearrows-color);
+  opacity: 0.35;
+  line-height: 1;
+  transition: opacity 0.15s ease;
+  user-select: none;
+}
+
+.post-container:hover > .sidearrows {
+  opacity: 0.65;
 }
 .post {
   min-width: 224px;
@@ -859,4 +867,147 @@ body.logged-in .post-modbutton {
   max-width: 340px !important;
   height: auto !important;
   margin: 0 auto 10px !important;
+}
+
+.post-file-name {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Image expansion */
+#image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.82);
+  cursor: zoom-out;
+}
+
+#image-overlay.visible {
+  display: flex;
+}
+
+#image-overlay-image {
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: zoom-out;
+}
+
+.post-image-link {
+  cursor: zoom-in;
+}
+
+/* Draggable / resizable Quick Reply */
+#postform {
+  min-width: 320px;
+  min-height: 180px;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  resize: both;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+#postform-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -4px -4px 6px;
+  padding: 3px 6px;
+  background-color: var(--barheader-bg-color);
+  border-bottom: 1px solid var(--dark-border-color);
+  cursor: move;
+  user-select: none;
+  font-weight: bold;
+}
+
+#postform-header .closebutton {
+  position: static;
+  z-index: auto;
+  font-weight: bold;
+}
+
+#postform.dragging {
+  user-select: none;
+}
+
+/* Smooth thread navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+#back-to-top {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 9000;
+  display: none;
+  padding: 5px 9px;
+  border: 1px solid var(--dark-border-color);
+  background: var(--post-bg-color);
+  color: var(--anchor-color);
+  text-decoration: none;
+  font-size: 10pt;
+  opacity: 0.8;
+}
+
+#back-to-top:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.post-expand-link {
+  margin-left: 2px;
+  font-size: 9pt;
+  opacity: 0.7;
+}
+
+.post-expand-link:hover {
+  opacity: 1;
+}
+
+/* Post attachment collapse */
+.post-attachment-content.collapsed {
+  display: none;
+}
+
+.post-attachment-toggle {
+  font-size: 9pt;
+  opacity: 0.7;
+}
+
+.post-attachment-toggle:hover {
+  opacity: 1;
+}
+
+.post-copy-link {
+  font-size: 9pt;
+  opacity: 0.55;
+}
+
+.post-copy-link:hover {
+  opacity: 1;
+}
+
+/* Stronger target-post feedback */
+.post.target-highlight {
+  animation: post-target-pulse 1.2s ease-out;
+}
+
+@keyframes post-target-pulse {
+  0% {
+    box-shadow: 0 0 0 3px var(--post-highlighted-bg-color);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
 }

@@ -71,6 +71,7 @@ createTables context =
       \ , thumb_width  INTEGER                      \
       \ , thumb_height INTEGER                      \
       \ , mime         TEXT                         \
+      \ , original_name TEXT NOT NULL DEFAULT ''   \
       \ )"
     DB.execute_ conn
       "CREATE TABLE IF NOT EXISTS user                           \

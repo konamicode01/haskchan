@@ -79,6 +79,7 @@ data File = File
   , thumbWidth :: Maybe Int
   , thumbHeight :: Maybe Int
   , mime :: Maybe Text
+  , originalName :: Text
   } deriving (Eq, Show)
 
 data Quote = Quote
@@ -490,7 +491,7 @@ instance FromRow Post where
   fromRow = Post <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance ToRow File where
-  toRow (File hash_ size_ ext_ hasThumb_ thumbWidth_ thumbHeight_ mime_) =
+  toRow (File hash_ size_ ext_ hasThumb_ thumbWidth_ thumbHeight_ mime_ originalName_) =
     [ toField hash_
     , toField size_
     , toField ext_
@@ -498,10 +499,11 @@ instance ToRow File where
     , toField thumbWidth_
     , toField thumbHeight_
     , toField mime_
+    , toField originalName_
     ]
 
 instance FromRow File where
-  fromRow = File <$> field <*> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = File <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance ToRow Quote where
   toRow (Quote qBoardUri_ qParentNo_ qChildNo_) =

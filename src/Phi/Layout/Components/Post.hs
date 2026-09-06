@@ -97,7 +97,10 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
         ] $ do
         case mFile of
           Nothing   -> pure ()
-          Just file -> postFileHeader file <> postFile file
+          Just file -> do
+            postFileHeader file
+            div_ [class_ "post-attachment-content"] $
+              postFile file
         postHeader
         blockquote_ [class_ "post-message"] $
           message post
@@ -110,7 +113,10 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
         postHeader
         case mFile of
           Nothing   -> pure ()
-          Just file -> postFileHeader file <> postFile file
+          Just file -> do
+            postFileHeader file
+            div_ [class_ "post-attachment-content"] $
+              postFile file
         blockquote_ [class_ "post-message"] $
           message post
   where
@@ -175,6 +181,14 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
           "No."
         a_ [class_ "post-no", href_ $ "/" <> pBoardUri post <> "/thread/" <> (T.pack . show $ threadNo) <> "#postform"] $
           toHtml . T.pack . show $ no post
+        " "
+        a_
+          [ class_ "post-copy-link"
+          , href_ "#"
+          , data_ "post-url" $ "/" <> pBoardUri post <> "/thread/" <> (T.pack . show $ threadNo) <> "#post" <> (T.pack . show $ no post)
+          , title_ "Copy link to this post"
+          ]
+          "[Copy link]"
         case eNoThread of
           Left  _no    -> pure ()
           Right thread ->
@@ -198,8 +212,16 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
     postFileHeader :: File -> Html ()
     postFileHeader file = do
       header_ [class_ "post-file-header"] $ do
-        "File:" <> toHtmlRaw ("&nbsp;" :: Text) <> a_ [href_ $ url file] (toHtml $ hash file <> ext file)
+        "File:" <> toHtmlRaw ("&nbsp;" :: Text)
+          <> a_ [class_ "post-file-name", href_ $ url file]
+               (toHtml $ if T.null (originalName file) then hash file <> ext file else originalName file)
         " (" <> toHtml (readableFilesize $ size file) <> ", " <> toHtml (fromMaybe "unk" $ mime file) <> ")"
+        when (hasThumb file && maybe False ("image/" `isPrefixOf`) (mime file)) $ do
+          " "
+          a_ [href_ "#", class_ "post-attachment-toggle"] "[Hide]"
+        when (hasThumb file && maybe False ("image/" `isPrefixOf`) (mime file)) $ do
+          " "
+          a_ [class_ "post-expand-link", href_ "#", data_ "image-url" (url file)] "[Expand]"
 
     postFile :: File -> Html ()
     postFile file
@@ -208,7 +230,7 @@ postL' (PostDecoration showReply showSidearrows showParent) eNoThread (post, mFi
       | fromMaybe False $ ("video/" `isPrefixOf`) <$> mime file =
         video_ [class_ "post-file", src_ $ url file, poster_ $ thumbUrl file, controls_ "", loop_ "", preload_ "none"] ""
       | otherwise = do
-        a_ [href_ $ url file, target_ "blank"] $
+        a_ [class_ "post-image-link", href_ $ url file] $
           let
             imgAttributes =
               case (thumbWidth file, thumbHeight file) of

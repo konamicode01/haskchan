@@ -27,6 +27,13 @@ baseL' includeThemeSelect details htmlHead htmlBody =
       link_ [rel_ "stylesheet", href_ "/.phi/static/style.css"]
       script_ [src_ "/.phi/static/captcha.js", defer_ ""] (mempty :: Html ())
       script_ [src_ "/.phi/static/quote.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/image-expand.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/postform.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/thread-qol.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/keyboard.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/attachment-qol.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/copy-post.js", defer_ ""] (mempty :: Html ())
+      script_ [src_ "/.phi/static/post-navigation.js", defer_ ""] (mempty :: Html ())
       when (pageTheme /= Phichannel) $
         link_ [rel_ "stylesheet", href_ $ themeUrl pageTheme]
       htmlHead

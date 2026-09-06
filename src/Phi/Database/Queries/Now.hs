@@ -657,11 +657,11 @@ insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile origin_ 
     Nothing   -> pure ()
     Just file -> do
       DB.executeNamed conn
-        "INSERT INTO file (hash, size, ext, has_thumb, thumb_width, thumb_height, mime) \
-        \ VALUES (:hash, :size, :ext, :has_thumb, :thumb_width, :thumb_height, :mime)   \
-        \ ON CONFLICT (hash) DO UPDATE                                                  \
-        \ SET (size, ext, has_thumb, thumb_width, thumb_height, mime) =                 \
-        \ (:size, :ext, :has_thumb, :thumb_width, :thumb_height, :mime)                 "
+        "INSERT INTO file (hash, size, ext, has_thumb, thumb_width, thumb_height, mime, original_name) \
+        \ VALUES (:hash, :size, :ext, :has_thumb, :thumb_width, :thumb_height, :mime, :original_name) \
+        \ ON CONFLICT (hash) DO UPDATE                                                      \
+        \ SET (size, ext, has_thumb, thumb_width, thumb_height, mime, original_name) =      \
+        \ (:size, :ext, :has_thumb, :thumb_width, :thumb_height, :mime, :original_name)      "
         [ ":hash"         := hash        file
         , ":size"         := size        file
         , ":ext"          := ext         file
@@ -669,6 +669,7 @@ insertPostNow conn board mThread newpost sage_ tripcode_ capcode_ mFile origin_ 
         , ":thumb_width"  := thumbWidth  file
         , ":thumb_height" := thumbHeight file
         , ":mime"         := mime        file
+        , ":original_name" := originalName file
         ]
 
   -- Replace dummy quotelinks with genuine links where possible.
