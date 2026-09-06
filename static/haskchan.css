@@ -266,7 +266,6 @@ a {
 .post[data-origin="clearnet"] {
     background-repeat: no-repeat;
     background-position: right 8px top 8px;
-    background-size: 28px 28px;
     padding-right: 42px;
 }
 
@@ -294,4 +293,3 @@ body.origin-indicators-disabled .post[data-origin="i2p"],
 body.origin-indicators-disabled .post[data-origin="clearnet"] {
     padding-right: 0;
 }
-
