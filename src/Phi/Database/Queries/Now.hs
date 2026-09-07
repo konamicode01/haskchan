@@ -214,6 +214,21 @@ getBoardsNow conn =
   DB.query_ conn
     "SELECT * FROM board ORDER BY total_posts DESC"
 
+getBoardStatsNow :: DB.Connection -> IO [(Text, Int, Int, Int)]
+getBoardStatsNow conn =
+  DB.query_ conn $ DB.Query $
+    "SELECT b.uri, "
+    <> "COALESCE((SELECT COUNT(*) FROM post p "
+    <> "WHERE p.board_uri = b.uri "
+    <> "AND p.datetime >= datetime('now', '-1 hour')), 0), "
+    <> "COALESCE((SELECT COUNT(*) FROM post p "
+    <> "WHERE p.board_uri = b.uri "
+    <> "AND date(p.datetime) = date('now')), 0), "
+    <> "b.total_posts "
+    <> "FROM board b "
+    <> "ORDER BY b.total_posts DESC"
+
+
 getBoardNow :: DB.Connection -> Text -> IO (Maybe Board)
 getBoardNow conn uri_ = do
   boards <- DB.query conn
@@ -276,14 +291,14 @@ getRecentPostsNow conn limit (whitelist, uris) = do
 
 getRecentPostsHavingFilesNow :: DB.Connection -> IO [Post]
 getRecentPostsHavingFilesNow conn = do
-  filetuples <- take 8 <$>
+  filetuples <- take 16 <$>
     nubBy (\t1@(filehash1, _, _) t2@(filehash2, _, _) -> filehash1 == filehash2) <$>
      DB.query_ conn
       "SELECT file_hash, thumb_width, thumb_height FROM post JOIN file \
       \ ON file_hash = hash AND thumb_width NOTNULL AND thumb_height NOTNULL \
       \ ORDER BY datetime DESC, no DESC"
     :: IO [(FileHash, Int, Int)]
-  reverse <$> getPostsWithinHeight 400 filetuples
+  reverse <$> getPostsWithinHeight 800 filetuples
   where
     margin = 6
     minHeight = 42
@@ -1443,3 +1458,20 @@ orphaned conn filehash = do
     [filehash]
     :: IO [Only Int]
   pure $ n < 1
+
+getPostActivityNow :: DB.Connection -> IO [(Text, Int)]
+getPostActivityNow conn =
+  DB.query_
+    conn
+    "WITH RECURSIVE days(day) AS ( \
+    \ SELECT date('now', '-13 days') \
+    \ UNION ALL \
+    \ SELECT date(day, '+1 day') \
+    \ FROM days \
+    \ WHERE day < date('now') \
+    \ ) \
+    \ SELECT strftime('%m-%d', days.day), COUNT(post.no) \
+    \ FROM days \
+    \ LEFT JOIN post ON date(post.datetime) = days.day \
+    \ GROUP BY days.day \
+    \ ORDER BY days.day DESC"

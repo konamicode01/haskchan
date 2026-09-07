@@ -146,6 +146,14 @@ getRecentHavingFiles :: Context -> ReceiptAssured [Post]
 getRecentHavingFiles context =
   tryTransaction context getRecentPostsHavingFilesNow
 
+getBoardStats :: Context -> ReceiptAssured [(Text, Int, Int, Int)]
+getBoardStats context =
+  tryTransaction context getBoardStatsNow
+
+getPostActivity :: Context -> ReceiptAssured [(Text, Int)]
+getPostActivity context =
+  tryTransaction context getPostActivityNow
+
 getRandomBanner :: Context -> Text -> Receipt NoSuchBoard (Maybe Banner)
 getRandomBanner context uri_ =
   tryTransaction context $ \conn -> do

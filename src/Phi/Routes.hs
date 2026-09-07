@@ -53,7 +53,22 @@ homepageH context = do
           case mTeaserPosts of
             Nothing -> errorH internalServerError500 "Error fetching posts"
             Just teaserPosts -> do
-              okHtml $ homepageL details (pdTopnav details) teaserImagePosts teaserPosts
+              mPostActivity <- getPostActivity context
+              case mPostActivity of
+                Nothing -> errorH internalServerError500 "Error fetching post activity"
+                Just postActivity -> do
+                  mBoardStats <- getBoardStats context
+                  case mBoardStats of
+                    Nothing -> errorH internalServerError500 "Error fetching board statistics"
+                    Just boardStats ->
+                      okHtml $
+                        homepageL
+                          details
+                          (pdTopnav details)
+                          teaserImagePosts
+                          teaserPosts
+                          postActivity
+                          boardStats
   where
     fst3 (a, b, c) = a
 

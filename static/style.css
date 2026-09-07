@@ -1011,3 +1011,2662 @@ html {
     box-shadow: 0 0 0 0 transparent;
   }
 }
+
+/* =========================================================
+   Haskchan Homepage
+   ========================================================= */
+
+#home {
+  width: min(1040px, calc(100% - 24px));
+  max-width: 1040px;
+  margin: 24px auto;
+  box-sizing: border-box;
+}
+
+#home-hero {
+  text-align: center;
+  padding: 34px 20px 30px;
+  margin-bottom: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      var(--container-bg-color),
+      var(--middle-bg-color)
+    );
+  border: 1px solid var(--dark-border-color);
+}
+
+#home-logo {
+  display: block;
+  width: min(420px, 82%);
+  height: auto;
+  margin: 0 auto 14px;
+}
+
+#home-title {
+  margin: 0;
+  color: var(--pagetitle-color);
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+
+#home-tagline {
+  margin: 8px auto 18px;
+  color: var(--secondary-color);
+  font-size: 11pt;
+}
+
+#home-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.home-action {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--dark-border-color);
+  background: var(--middle-bg-color);
+  color: var(--anchor-color);
+  font-weight: bold;
+  border-radius: 3px;
+}
+
+.home-action:hover {
+  text-decoration: none;
+  filter: brightness(1.06);
+}
+
+.home-action-primary {
+  background: var(--post-highlighted-bg-color);
+}
+
+.home-section {
+  margin-bottom: 18px;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.home-section-header h2,
+.home-panel-header h2 {
+  margin: 0;
+  color: var(--pagetitle-color);
+  font-size: 15pt;
+}
+
+.home-section-subtitle {
+  color: var(--secondary-color);
+  font-size: 9pt;
+}
+
+#boards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board-card {
+  min-width: 0;
+}
+
+.board-card-link {
+  display: block;
+  min-height: 116px;
+  box-sizing: border-box;
+  padding: 12px;
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.board-card-link:hover {
+  text-decoration: none;
+  background: var(--post-highlighted-bg-color);
+}
+
+.board-card-uri {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--anchor-color);
+  font-size: 13pt;
+  font-weight: bold;
+}
+
+.board-card-title {
+  display: block;
+  color: var(--post-subject-color);
+  font-weight: bold;
+}
+
+.board-card-description {
+  margin: 8px 0 0;
+  color: var(--secondary-color);
+  font-size: 9pt;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#home-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.home-panel {
+  min-width: 0;
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+  padding: 10px;
+}
+
+.home-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--light-border-color);
+}
+
+.home-panel-header > a {
+  font-size: 9pt;
+}
+
+#home-image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.home-image {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.home-image:hover {
+  text-decoration: none;
+  border-color: var(--anchor-color);
+}
+
+.home-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#home-post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-post {
+  display: flex;
+  gap: 8px;
+  padding: 7px 5px;
+  border-bottom: 1px solid var(--light-border-color);
+}
+
+.home-post:last-child {
+  border-bottom: none;
+}
+
+.home-post-board {
+  flex: 0 0 auto;
+  font-weight: bold;
+}
+
+.home-post-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#home-network {
+  padding-top: 2px;
+}
+
+#network-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.network-card {
+  display: block;
+  padding: 12px;
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.network-card:hover {
+  text-decoration: none;
+  background: var(--post-highlighted-bg-color);
+}
+
+.network-name {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  color: var(--post-subject-color);
+}
+
+.network-address {
+  display: block;
+  color: var(--secondary-color);
+  font-size: 9pt;
+  overflow-wrap: anywhere;
+}
+
+#home-about {
+  padding: 16px;
+  text-align: center;
+  color: var(--secondary-color);
+  border-top: 1px solid var(--dark-border-color);
+}
+
+#home-about h2 {
+  margin: 0 0 7px;
+  color: var(--pagetitle-color);
+  font-size: 13pt;
+}
+
+#home-about p {
+  margin: 5px auto;
+  max-width: 700px;
+}
+
+.home-small {
+  font-size: 9pt;
+}
+
+@media (max-width: 760px) {
+  #boards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #home-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #network-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  #home {
+    width: calc(100% - 12px);
+    margin: 12px auto;
+  }
+
+  #home-hero {
+    padding: 24px 12px;
+  }
+
+  #home-title {
+    font-size: 23px;
+  }
+
+  #boards {
+    grid-template-columns: 1fr;
+  }
+
+  #home-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-post {
+    display: block;
+  }
+
+  .home-post-message {
+    display: block;
+    margin-top: 3px;
+  }
+}
+
+/* Homepage boards - classic list style */
+#boards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--dark-border-color);
+}
+
+#boards > .board-card {
+  min-width: 0;
+}
+
+#boards > .board-card > .board-card-link {
+  display: block;
+  min-height: auto;
+  padding: 10px 6px;
+  box-sizing: border-box;
+  background: var(--middle-bg-color);
+  border: none;
+  text-align: center;
+}
+
+#boards > .board-card > .board-card-link:hover {
+  background: var(--post-highlighted-bg-color);
+}
+
+.board-card-uri {
+  display: inline;
+  margin: 0;
+  font-size: 9pt;
+  font-weight: bold;
+}
+
+.board-card-title {
+  display: inline;
+  margin-left: 4px;
+  color: var(--post-subject-color);
+  font-weight: normal;
+}
+
+.board-card-description {
+  display: block;
+  margin: 3px 0 0;
+  font-size: 8pt;
+  color: var(--secondary-color);
+}
+
+@media (max-width: 760px) {
+  #boards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  #boards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.network-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.network-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  object-fit: contain;
+}
+
+.network-card > div {
+  min-width: 0;
+}
+
+.network-name {
+  display: block;
+}
+
+.network-address {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+#home-image-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  #home-image-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  #home-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+#home-image-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.home-image {
+  min-height: 90px;
+}
+
+@media (max-width: 900px) {
+  #home-image-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  #home-image-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  #home-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Haskchan post activity graph */
+#posts-graph {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+  table-layout: fixed;
+}
+
+#posts-graph th,
+#posts-graph td {
+  padding: 4px 6px;
+  border: 1px solid var(--dark-border-color);
+  text-align: left;
+  vertical-align: middle;
+}
+
+#posts-graph th {
+  background-color: var(--post-highlighted-bg-color);
+  font-weight: bold;
+}
+
+#posts-graph th:first-child,
+#posts-graph td:first-child {
+  width: 70px;
+}
+
+#posts-graph th:nth-child(2),
+#posts-graph td:nth-child(2) {
+  width: 60px;
+}
+
+.activity-bar-cell {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.activity-bar {
+  font-family: monospace;
+  letter-spacing: 0;
+}
+
+/* NNTPChan-inspired homepage statistics */
+#statistics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 1fr);
+  gap: 12px;
+}
+
+.statistics-panel {
+  min-width: 0;
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+  padding: 10px;
+}
+
+.statistics-panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--light-border-color);
+}
+
+.statistics-panel-header h3 {
+  margin: 0;
+  color: var(--pagetitle-color);
+  font-size: 12pt;
+}
+
+.statistics-panel-header span {
+  color: var(--secondary-color);
+  font-size: 8pt;
+}
+
+#posts-graph,
+#board-graph {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+#posts-graph th,
+#posts-graph td,
+#board-graph th,
+#board-graph td {
+  padding: 4px 6px;
+  border: 1px solid var(--dark-border-color);
+  vertical-align: middle;
+}
+
+#posts-graph th,
+#board-graph th {
+  background-color: var(--post-highlighted-bg-color);
+  font-weight: bold;
+  text-align: left;
+}
+
+#posts-graph td:first-child {
+  width: 65px;
+}
+
+#posts-graph td:nth-child(2) {
+  width: 55px;
+  white-space: nowrap;
+}
+
+#posts-graph .activity-bar-cell {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#posts-graph .activity-bar {
+  font-family: monospace;
+  letter-spacing: 0;
+}
+
+#board-graph th:first-child,
+#board-graph td:first-child {
+  width: auto;
+}
+
+#board-graph th:not(:first-child),
+#board-graph td:not(:first-child) {
+  width: 58px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+#board-graph td:first-child {
+  font-weight: bold;
+}
+
+@media (max-width: 850px) {
+  #statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Haskchan NNTPChan-style front page
+   ========================================================= */
+
+#nntp-home {
+  width: min(1000px, calc(100% - 20px));
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+#nntp-intro {
+  text-align: center;
+  padding: 20px 10px;
+  margin-bottom: 14px;
+}
+
+#nntp-intro #home-logo {
+  display: block;
+  width: min(420px, 80%);
+  height: auto;
+  margin: 0 auto 10px;
+}
+
+#nntp-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+#nntp-links {
+  line-height: 1.7;
+  font-size: 9pt;
+}
+
+#nntp-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.nntp-stats-side {
+  min-width: 0;
+}
+
+.nntp-stats-side h2,
+#boards h2,
+#nntp-recent h2,
+#home-network h2,
+#home-about h2 {
+  font-size: 12pt;
+  margin: 0 0 6px;
+}
+
+#posts-graph,
+#board-graph {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+#posts-graph th,
+#posts-graph td,
+#board-graph th,
+#board-graph td {
+  border: 1px solid var(--dark-border-color);
+  padding: 4px 6px;
+  vertical-align: middle;
+}
+
+#posts-graph th,
+#board-graph th {
+  background: var(--middle-bg-color);
+  text-align: left;
+}
+
+#posts-graph td:first-child {
+  width: 60px;
+}
+
+#posts-graph td:nth-child(2) {
+  width: 48px;
+  text-align: right;
+}
+
+#posts-graph td:nth-child(3) {
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.activity-bar {
+  font-family: monospace;
+  letter-spacing: 0;
+}
+
+#board-graph td:not(:first-child),
+#board-graph th:not(:first-child) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+#board-graph td:first-child {
+  font-weight: bold;
+}
+
+#board-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+
+#board-list li {
+  padding: 4px;
+  text-align: center;
+}
+
+#board-list li a {
+  font-weight: bold;
+}
+
+#nntp-recent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+#nntp-recent-images,
+#nntp-recent-posts {
+  min-width: 0;
+}
+
+#home-image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.home-image {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#home-post-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.home-post {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border-bottom: 1px solid var(--light-border-color);
+  overflow: hidden;
+}
+
+.home-post-board {
+  flex: 0 0 auto;
+  font-weight: bold;
+}
+
+.home-post-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.network-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid var(--dark-border-color);
+  background: var(--middle-bg-color);
+}
+
+.network-card:hover {
+  text-decoration: none;
+  background: var(--post-highlighted-bg-color);
+}
+
+.network-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex: 0 0 26px;
+}
+
+.network-name {
+  display: block;
+  font-weight: bold;
+}
+
+.network-address {
+  display: block;
+  font-size: 8pt;
+  overflow-wrap: anywhere;
+}
+
+#home-network {
+  margin-bottom: 14px;
+}
+
+#home-about {
+  border-top: 1px solid var(--dark-border-color);
+  padding: 12px 4px;
+  text-align: center;
+  font-size: 9pt;
+}
+
+#home-about h2 {
+  margin-bottom: 5px;
+}
+
+#home-about p {
+  margin: 4px 0;
+}
+
+@media (max-width: 750px) {
+  #nntp-stats,
+  #nntp-recent {
+    grid-template-columns: 1fr;
+  }
+
+  #board-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  #board-list {
+    grid-template-columns: 1fr;
+  }
+
+  #network-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #home-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   Haskchan front page - NNTPChan inspired
+   Final homepage overrides
+   ========================================================= */
+
+#nntp-home {
+  width: min(1000px, calc(100% - 24px));
+  max-width: 1000px;
+  margin: 24px auto;
+  font-size: 10pt;
+}
+
+/* Intro */
+#nntp-intro {
+  margin: 0 auto 16px;
+  padding: 4px;
+  text-align: center;
+  background: transparent;
+  border: 0;
+}
+
+#nntp-intro #home-logo {
+  display: block;
+  width: min(360px, 70%);
+  max-width: 360px;
+  height: auto;
+  margin: 0 auto 10px;
+}
+
+#nntp-title {
+  margin: 4px 0 8px;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+#nntp-links {
+  font-size: 10pt;
+  line-height: 1.65;
+}
+
+/* Statistics */
+#nntp-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.nntp-stats-side {
+  min-width: 0;
+}
+
+.nntp-stats-side h2 {
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: 11pt;
+}
+
+/* Tables */
+#posts-graph,
+#board-graph {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: 10pt;
+}
+
+#posts-graph th,
+#posts-graph td,
+#board-graph th,
+#board-graph td {
+  padding: 3px 5px;
+  border: 1px solid var(--dark-border-color);
+  vertical-align: middle;
+}
+
+#posts-graph th,
+#board-graph th {
+  background: var(--post-highlighted-bg-color);
+  font-weight: bold;
+  text-align: left;
+}
+
+#posts-graph td:first-child {
+  width: 55px;
+}
+
+#posts-graph td:nth-child(2) {
+  width: 55px;
+  text-align: right;
+}
+
+#posts-graph td:nth-child(3) {
+  width: auto;
+}
+
+.activity-bar-cell {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.activity-bar {
+  font-family: monospace;
+  font-size: 10pt;
+  letter-spacing: 0;
+}
+
+/* Boards - simple NNTPChan style */
+#boards {
+  margin-bottom: 16px;
+}
+
+#boards h2 {
+  margin: 0 0 5px;
+  font-size: 11pt;
+}
+
+#board-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 3;
+  column-gap: 24px;
+}
+
+#board-list li {
+  padding: 2px 0;
+  break-inside: avoid;
+  text-align: left;
+}
+
+#board-list li a {
+  font-weight: normal;
+}
+
+/* Recent */
+#nntp-recent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+#nntp-recent-images h2,
+#nntp-recent-posts h2 {
+  margin: 0 0 5px;
+  font-size: 11pt;
+}
+
+#home-image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.home-image {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+  box-sizing: border-box;
+}
+
+.home-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#home-post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-post {
+  display: flex;
+  gap: 6px;
+  padding: 3px 2px;
+  border-bottom: 1px solid var(--light-border-color);
+  font-size: 9pt;
+}
+
+.home-post-board {
+  flex: 0 0 auto;
+  font-weight: bold;
+}
+
+.home-post-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Network */
+#home-network {
+  margin-bottom: 14px;
+}
+
+#home-network h2 {
+  margin: 0 0 5px;
+  font-size: 11pt;
+}
+
+#network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.network-card {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 6px;
+  background: transparent;
+  border: 1px solid var(--dark-border-color);
+}
+
+.network-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  object-fit: contain;
+}
+
+.network-name {
+  display: block;
+  font-weight: bold;
+}
+
+.network-address {
+  display: block;
+  font-size: 8pt;
+  overflow-wrap: anywhere;
+}
+
+/* About */
+#home-about {
+  margin-top: 10px;
+  padding: 10px 4px;
+  border-top: 1px solid var(--dark-border-color);
+  text-align: center;
+  font-size: 9pt;
+}
+
+#home-about h2 {
+  margin: 0 0 4px;
+  font-size: 11pt;
+}
+
+#home-about p {
+  margin: 3px 0;
+}
+
+/* Responsive */
+@media (max-width: 750px) {
+  #nntp-stats,
+  #nntp-recent {
+    grid-template-columns: 1fr;
+  }
+
+  #board-list {
+    columns: 2;
+  }
+
+  #network-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  #nntp-home {
+    width: calc(100% - 12px);
+    margin: 12px auto;
+    font-size: 10pt;
+  }
+
+  #nntp-intro #home-logo {
+    width: 280px;
+    max-width: 80%;
+  }
+
+  #board-list {
+    columns: 1;
+  }
+
+  #home-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #posts-graph,
+  #board-graph {
+    font-size: 9pt;
+  }
+
+  #posts-graph th,
+  #posts-graph td,
+  #board-graph th,
+  #board-graph td {
+    padding: 3px 4px;
+  }
+}
+
+/* Classic Haskchan board bar */
+#boards {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 0;
+}
+
+#board-bar {
+  display: flex;
+  align-items: stretch;
+  min-height: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--barheader-bg-color);
+  border: 1px solid var(--dark-border-color);
+  overflow: hidden;
+}
+
+#board-bar h2 {
+  display: flex;
+  align-items: center;
+  flex: 0 0 110px;
+  margin: 0;
+  padding: 0 8px;
+  box-sizing: border-box;
+  color: var(--barheader-color);
+  font-size: 14pt;
+}
+
+#board-list {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+#board-list li {
+  display: flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+#board-list li a {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  color: var(--barheader-color);
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#board-list li a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  text-decoration: underline;
+}
+
+@media (max-width: 750px) {
+  #board-bar {
+    display: block;
+  }
+
+  #board-bar h2 {
+    min-height: 38px;
+  }
+
+  #board-list {
+    flex-wrap: wrap;
+  }
+
+  #board-list li a {
+    padding: 6px 10px;
+  }
+}
+
+/* Fix classic boards bar clipping */
+#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+}
+
+#board-bar {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  background: var(--barheader-bg-color) !important;
+  border: 1px solid var(--dark-border-color) !important;
+  overflow: visible !important;
+}
+
+#board-bar h2 {
+  flex: 0 0 auto !important;
+  width: 110px !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+#board-list {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  align-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  columns: auto !important;
+  column-count: auto !important;
+  column-width: auto !important;
+  overflow: visible !important;
+}
+
+#board-list li {
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#board-list li a {
+  display: block !important;
+  height: auto !important;
+  padding: 10px 18px !important;
+  box-sizing: border-box !important;
+  color: var(--barheader-color) !important;
+  font-weight: bold !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+#board-list li a:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 700px) {
+  #board-bar {
+    display: block !important;
+  }
+
+  #board-bar h2 {
+    width: auto !important;
+    padding: 8px 10px !important;
+  }
+
+  #board-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  #board-list li a {
+    padding: 7px 10px !important;
+  }
+}
+
+/* Simple NNTPChan-style homepage footer */
+#home-footer {
+  margin: 16px 0 4px;
+  padding: 0 8px 8px;
+  text-align: center;
+  font-size: 9pt;
+  color: var(--secondary-color);
+}
+
+#home-footer hr {
+  height: 1px;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--dark-border-color);
+}
+
+#home-footer p {
+  margin: 4px 0;
+}
+
+#home-footer .footer-links {
+  font-size: 8pt;
+}
+
+#home-footer a {
+  color: var(--anchor-color);
+}
+
+/* =========================================================
+   Classic Haskchan Boards section
+   ========================================================= */
+
+#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+}
+
+/* Purple Boards header */
+#boards > h2 {
+  display: block;
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  min-height: 34px;
+  box-sizing: border-box;
+  background: var(--barheader-bg-color);
+  color: var(--barheader-color);
+  border: 1px solid var(--dark-border-color);
+  border-bottom: none;
+  font-size: 15pt;
+  line-height: 1.4;
+}
+
+/* Board boxes */
+#board-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 8px 10px 10px !important;
+  box-sizing: border-box;
+  list-style: none !important;
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+#board-list li {
+  display: block !important;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#board-list li a {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 74px;
+  margin: 0 1px 0 0;
+  padding: 10px 12px !important;
+  box-sizing: border-box;
+  border: 1px solid var(--dark-border-color);
+  background: transparent;
+  color: var(--anchor-color);
+  font-size: 11pt;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal !important;
+}
+
+#board-list li:last-child a {
+  margin-right: 0;
+}
+
+#board-list li a:hover {
+  background: var(--post-highlighted-bg-color);
+  text-decoration: none;
+}
+
+/* Mobile */
+@media (max-width: 750px) {
+  #board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #board-list li a {
+    min-height: 64px;
+  }
+}
+
+@media (max-width: 500px) {
+  #board-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  #board-list li a {
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+}
+
+/* =========================================================
+   Final homepage footer reset
+   ========================================================= */
+
+#home-footer {
+  display: block !important;
+  width: 100% !important;
+  margin: 12px 0 0 !important;
+  padding: 0 0 10px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  color: var(--secondary-color) !important;
+  font-size: 9pt !important;
+}
+
+#home-footer hr {
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--dark-border-color) !important;
+  background: transparent !important;
+}
+
+#home-footer p {
+  margin: 3px 0 !important;
+  padding: 0 !important;
+}
+
+#home-footer .footer-links {
+  margin-top: 6px !important;
+  font-size: 8pt !important;
+}
+
+#home-footer a {
+  color: var(--anchor-color) !important;
+  text-decoration: none !important;
+}
+
+#home-footer a:hover {
+  text-decoration: underline !important;
+}
+
+/* Completely neutralize any previous About styling */
+#home-about {
+  display: none !important;
+}
+
+/* FINAL: old Haskchan-style board section */
+#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 14px 0 !important;
+  padding: 0 !important;
+}
+
+#boards > h2 {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  box-sizing: border-box !important;
+  background: var(--barheader-bg-color) !important;
+  color: var(--barheader-color) !important;
+  border: 1px solid var(--dark-border-color) !important;
+  font-size: 14pt !important;
+}
+
+#board-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+  list-style: none !important;
+  columns: auto !important;
+  column-count: auto !important;
+  border: 1px solid var(--dark-border-color) !important;
+  border-top: 0 !important;
+  background: var(--container-bg-color) !important;
+}
+
+#board-list li {
+  display: block !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#board-list li a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 68px !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  border: 1px solid var(--dark-border-color) !important;
+  background: var(--middle-bg-color) !important;
+  color: var(--anchor-color) !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  white-space: normal !important;
+}
+
+#board-list li a:hover {
+  background: var(--post-highlighted-bg-color) !important;
+  text-decoration: none !important;
+}
+
+/* FINAL: graph left, board stats right */
+#nntp-stats {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 16px 0 !important;
+  align-items: start !important;
+}
+
+#nntp-post-stats,
+#nntp-board-stats {
+  min-width: 0 !important;
+}
+
+@media (max-width: 800px) {
+  #nntp-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  #board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  #board-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================================
+   FINAL HOMEPAGE ORDER
+   ========================================================= */
+
+#nntp-stats {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) !important;
+  width: 100% !important;
+  margin: 0 0 16px !important;
+  gap: 12px !important;
+  align-items: start !important;
+}
+
+/* =========================================================
+   FINAL BOARD GRID
+   ========================================================= */
+
+#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+}
+
+#boards > h2 {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  box-sizing: border-box !important;
+
+  background: var(--barheader-bg-color) !important;
+  color: var(--barheader-color) !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+  border-bottom: 0 !important;
+
+  font-size: 14pt !important;
+  line-height: 1.4 !important;
+}
+
+/* Three boards side-by-side */
+#board-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+
+  gap: 6px !important;
+
+  list-style: none !important;
+  columns: auto !important;
+  column-count: auto !important;
+
+  background: var(--container-bg-color) !important;
+  border: 1px solid var(--dark-border-color) !important;
+}
+
+#board-list li {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#board-list li a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 100% !important;
+  min-height: 68px !important;
+
+  margin: 0 !important;
+  padding: 10px !important;
+
+  box-sizing: border-box !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+  background: var(--middle-bg-color) !important;
+
+  color: var(--anchor-color) !important;
+
+  font-size: 10pt !important;
+  font-weight: bold !important;
+
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+
+  text-decoration: none !important;
+}
+
+#board-list li a:hover {
+  background: var(--post-highlighted-bg-color) !important;
+  text-decoration: none !important;
+}
+
+/* Keep the graph readable */
+#nntp-post-stats,
+#nntp-board-stats {
+  min-width: 0 !important;
+}
+
+#posts-graph,
+#board-graph {
+  width: 100% !important;
+  margin: 0 !important;
+  border-collapse: collapse !important;
+}
+
+#posts-graph th,
+#posts-graph td,
+#board-graph th,
+#board-graph td {
+  padding: 4px 6px !important;
+  border: 1px solid var(--dark-border-color) !important;
+  vertical-align: middle !important;
+}
+
+#posts-graph .activity-bar {
+  font-family: monospace !important;
+  white-space: nowrap !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 800px) {
+  #nntp-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  #board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  #board-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* FINAL BOARD GRID OVERRIDE */
+
+section#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 16px 0 !important;
+  padding: 0 !important;
+}
+
+section#boards > h2 {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  box-sizing: border-box !important;
+
+  background: var(--barheader-bg-color) !important;
+  color: var(--barheader-color) !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+  border-bottom: 0 !important;
+
+  font-size: 14pt !important;
+}
+
+/* Force all boards onto the same row */
+section#boards ul#board-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 8px !important;
+
+  box-sizing: border-box !important;
+
+  gap: 6px !important;
+
+  list-style: none !important;
+  columns: auto !important;
+  column-count: auto !important;
+  column-width: auto !important;
+
+  background: var(--container-bg-color) !important;
+  border: 1px solid var(--dark-border-color) !important;
+  border-top: 0 !important;
+
+  overflow: visible !important;
+}
+
+section#boards ul#board-list > li {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+section#boards ul#board-list > li > a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 100% !important;
+  min-height: 68px !important;
+
+  margin: 0 !important;
+  padding: 10px !important;
+
+  box-sizing: border-box !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+
+  background: var(--middle-bg-color) !important;
+
+  color: var(--anchor-color) !important;
+
+  font-weight: bold !important;
+  text-align: center !important;
+
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+
+  text-decoration: none !important;
+}
+
+section#boards ul#board-list > li > a:hover {
+  background: var(--post-highlighted-bg-color) !important;
+  text-decoration: none !important;
+}
+
+/* Statistics stays directly above Boards */
+section#nntp-stats {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(360px, 1fr) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 16px 0 !important;
+  align-items: start !important;
+}
+
+@media (max-width: 800px) {
+  section#nntp-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  section#boards ul#board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  section#boards ul#board-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================================
+   FINAL HOMEPAGE ORDER
+   ========================================================= */
+
+#nntp-home {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Desired homepage order */
+#nntp-intro {
+  order: 1 !important;
+}
+
+#nntp-stats {
+  order: 2 !important;
+}
+
+#boards {
+  order: 3 !important;
+}
+
+#nntp-recent {
+  order: 4 !important;
+}
+
+#home-network {
+  order: 5 !important;
+}
+
+#home-footer {
+  order: 6 !important;
+}
+
+/* =========================================================
+   BOARDS - ALWAYS THREE ACROSS
+   ========================================================= */
+
+section#boards {
+  display: block !important;
+  width: 100% !important;
+  margin: 14px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+section#boards > h2 {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  box-sizing: border-box !important;
+
+  background: var(--barheader-bg-color) !important;
+  color: var(--barheader-color) !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+  border-bottom: 0 !important;
+
+  font-size: 14pt !important;
+  line-height: 1.4 !important;
+}
+
+section#boards ul#board-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 8px !important;
+
+  box-sizing: border-box !important;
+
+  gap: 6px !important;
+
+  list-style: none !important;
+
+  columns: initial !important;
+  column-count: initial !important;
+  column-width: initial !important;
+
+  overflow: visible !important;
+
+  background: var(--container-bg-color) !important;
+  border: 1px solid var(--dark-border-color) !important;
+  border-top: 0 !important;
+}
+
+section#boards ul#board-list > li {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+section#boards ul#board-list > li > a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 100% !important;
+  min-height: 68px !important;
+  height: auto !important;
+
+  margin: 0 !important;
+  padding: 10px !important;
+
+  box-sizing: border-box !important;
+
+  border: 1px solid var(--dark-border-color) !important;
+  background: var(--middle-bg-color) !important;
+
+  color: var(--anchor-color) !important;
+
+  font-size: 10pt !important;
+  font-weight: bold !important;
+
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+
+  text-decoration: none !important;
+}
+
+section#boards ul#board-list > li > a:hover {
+  background: var(--post-highlighted-bg-color) !important;
+}
+
+/* Don't collapse to one column until the screen is genuinely tiny */
+@media (max-width: 450px) {
+  section#boards ul#board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 320px) {
+  section#boards ul#board-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+section#nntp-stats {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 1fr) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 14px 0 !important;
+  align-items: start !important;
+}
+
+#nntp-post-stats,
+#nntp-board-stats {
+  min-width: 0 !important;
+}
+
+@media (max-width: 700px) {
+  section#nntp-stats {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================================
+   Haskchan clean homepage
+   ========================================================= */
+
+#hc-home {
+  width: min(1000px, calc(100% - 24px));
+  margin: 20px auto;
+  font-size: 10pt;
+}
+
+/* Intro */
+#hc-intro {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+#hc-logo {
+  display: block;
+  width: min(360px, 75%);
+  height: auto;
+  margin: 0 auto 10px;
+}
+
+#hc-intro h1 {
+  margin: 0 0 6px;
+  font-size: 18pt;
+}
+
+#hc-intro p {
+  margin: 5px 0 10px;
+}
+
+#hc-intro-links {
+  line-height: 1.65;
+}
+
+/* =========================================================
+   Statistics
+   ========================================================= */
+
+#hc-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.hc-stat-panel {
+  min-width: 0;
+}
+
+.hc-stat-panel h2,
+#hc-boards > h2,
+#hc-recent h2,
+#hc-network h2 {
+  margin: 0 0 5px;
+  font-size: 11pt;
+}
+
+#hc-post-graph,
+#hc-board-graph {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+#hc-post-graph th,
+#hc-post-graph td,
+#hc-board-graph th,
+#hc-board-graph td {
+  padding: 4px 6px;
+  vertical-align: middle;
+}
+
+#hc-post-graph th,
+#hc-board-graph th {
+  background: var(--middle-bg-color);
+  text-align: left;
+  font-weight: bold;
+}
+
+#hc-post-graph td:first-child {
+  width: 58px;
+}
+
+#hc-post-graph td:nth-child(2) {
+  width: 52px;
+  text-align: right;
+}
+
+#hc-activity-cell {
+  white-space: nowrap;
+}
+
+.hc-activity-bar {
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+#hc-board-graph td:not(:first-child),
+#hc-board-graph th:not(:first-child) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Boards
+   ========================================================= */
+
+#hc-boards {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+#hc-boards > h2 {
+  margin: 0;
+  padding: 6px 10px;
+  background: var(--barheader-bg-color);
+  color: var(--barheader-color);
+  border: 1px solid var(--dark-border-color);
+  font-size: 14pt;
+}
+
+/* Three columns, always on desktop */
+#hc-board-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+
+  margin: 0;
+  padding: 8px;
+
+  list-style: none;
+
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+  border-top: 0;
+
+  box-sizing: border-box;
+}
+
+#hc-board-list li {
+  display: block;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#hc-board-list li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 68px;
+  padding: 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--dark-border-color);
+  background: var(--middle-bg-color);
+
+  color: var(--anchor-color);
+  font-weight: bold;
+  text-align: center;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  text-decoration: none;
+}
+
+#hc-board-list li a:hover {
+  background: var(--post-highlighted-bg-color);
+  text-decoration: none;
+}
+
+/* =========================================================
+   Recent content
+   ========================================================= */
+
+#hc-recent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+#hc-recent-images,
+#hc-recent-posts {
+  min-width: 0;
+}
+
+#hc-image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.hc-image {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.hc-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#hc-post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hc-post {
+  display: flex;
+  gap: 6px;
+  padding: 3px 2px;
+  border-bottom: 1px solid var(--light-border-color);
+  overflow: hidden;
+}
+
+.hc-post-board {
+  flex: 0 0 auto;
+  font-weight: bold;
+}
+
+.hc-post-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Network
+   ========================================================= */
+
+#hc-network {
+  margin-bottom: 14px;
+}
+
+#hc-network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.hc-network-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  min-width: 0;
+  padding: 7px;
+
+  border: 1px solid var(--dark-border-color);
+  background: var(--middle-bg-color);
+}
+
+.hc-network-card:hover {
+  background: var(--post-highlighted-bg-color);
+  text-decoration: none;
+}
+
+.hc-network-icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  object-fit: contain;
+}
+
+.hc-network-name {
+  display: block;
+  font-weight: bold;
+}
+
+.hc-network-address {
+  display: block;
+  font-size: 8pt;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+#hc-footer {
+  margin-top: 14px;
+  padding: 0 4px 10px;
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 9pt;
+}
+
+#hc-footer hr {
+  margin: 0 0 10px;
+  border: 0;
+  border-top: 1px solid var(--dark-border-color);
+}
+
+#hc-footer p {
+  margin: 4px 0;
+}
+
+#hc-footer .hc-footer-links {
+  font-size: 8pt;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 800px) {
+  #hc-stats,
+  #hc-recent {
+    grid-template-columns: 1fr;
+  }
+
+  #hc-network-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  #hc-board-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #hc-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 400px) {
+  #hc-board-list {
+    grid-template-columns: 1fr;
+  }
+
+  #hc-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Haskchan homepage hero background */
+#hc-intro {
+  position: relative;
+  margin-bottom: 18px !important;
+  padding: 32px 20px 28px !important;
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      rgba(35, 21, 48, 0.82),
+      rgba(35, 21, 48, 0.82)
+    ),
+    url("/.phi/static/haskchan_bg.png");
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  border: 1px solid var(--dark-border-color);
+  border-radius: 3px;
+}
+
+#hc-intro #hc-logo,
+#hc-intro h1,
+#hc-intro p,
+#hc-intro-links {
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove homepage hero background */
+#hc-intro {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Shared homepage network section */
+#hc-network {
+  display: block;
+  width: 100%;
+  margin: 14px 0;
+}
+
+#hc-network > h2 {
+  margin: 0 0 6px;
+  font-size: 11pt;
+}
+
+#hc-network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.hc-network-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.hc-network-card:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.hc-network-icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  object-fit: contain;
+}
+
+.hc-network-card > div {
+  min-width: 0;
+}
+
+.hc-network-name {
+  display: block;
+  font-weight: bold;
+}
+
+.hc-network-address {
+  display: block;
+  font-size: 8pt;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 700px) {
+  #hc-network-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Network origin indicators */
+.post[data-origin="tor"],
+.post[data-origin="i2p"],
+.post[data-origin="clearnet"] {
+    background-repeat: no-repeat;
+    background-position: right 8px top 8px;
+    background-size: auto;
+    padding-right: 42px;
+}
+
+.post[data-origin="tor"] {
+    background-image: url('/.phi/static/tor.png');
+}
+
+.post[data-origin="i2p"] {
+    background-image: url('/.phi/static/i2p.png');
+}
+
+.post[data-origin="clearnet"] {
+    background-image: url('/.phi/static/clearnet.png');
+}
+
+/* =========================================================
+   Haskchan homepage Recent Images / Recent Posts headers
+   ========================================================= */
+
+#hc-recent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 14px 0;
+}
+
+#hc-recent-images,
+#hc-recent-posts {
+  min-width: 0;
+}
+
+/* Purple section headers */
+#hc-recent-images > h2,
+#hc-recent-posts > h2 {
+  display: block;
+  margin: 0;
+  padding: 5px 8px;
+  box-sizing: border-box;
+
+  background: var(--barheader-bg-color);
+  color: var(--barheader-color);
+
+  border: 1px solid var(--dark-border-color);
+  border-bottom: 0;
+
+  font-size: 11pt;
+  line-height: 1.4;
+}
+
+/* Recent image area */
+#hc-image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+
+  padding: 8px;
+  box-sizing: border-box;
+
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.hc-image {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  background: var(--middle-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.hc-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Recent posts area */
+#hc-post-list {
+  margin: 0;
+  padding: 6px 8px;
+
+  list-style: none;
+
+  background: var(--container-bg-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+.hc-post {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+
+  padding: 3px 2px;
+
+  border-bottom: 1px solid var(--light-border-color);
+  overflow: hidden;
+}
+
+.hc-post:last-child {
+  border-bottom: 0;
+}
+
+.hc-post-board {
+  flex: 0 0 auto;
+  font-weight: bold;
+}
+
+.hc-post-message {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+  #hc-recent {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  #hc-image-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
