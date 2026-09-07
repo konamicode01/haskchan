@@ -52,23 +52,13 @@ homepageH context = do
           mTeaserPosts <- (map (fst3 . snd) . fst <$>) <$> getRecent context 16 (False, [])
           case mTeaserPosts of
             Nothing -> errorH internalServerError500 "Error fetching posts"
-            Just teaserPosts -> do
-              mPostActivity <- getPostActivity context
-              case mPostActivity of
-                Nothing -> errorH internalServerError500 "Error fetching post activity"
-                Just postActivity -> do
-                  mBoardStats <- getBoardStats context
-                  case mBoardStats of
-                    Nothing -> errorH internalServerError500 "Error fetching board statistics"
-                    Just boardStats ->
-                      okHtml $
-                        homepageL
-                          details
-                          (pdTopnav details)
-                          teaserImagePosts
-                          teaserPosts
-                          postActivity
-                          boardStats
+            Just teaserPosts ->
+              okHtml $
+                homepageL
+                  details
+                  (pdTopnav details)
+                  teaserImagePosts
+                  teaserPosts
   where
     fst3 (a, b, c) = a
 

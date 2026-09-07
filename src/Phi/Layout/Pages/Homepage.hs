@@ -14,10 +14,8 @@ homepageL :: PageDetails
           -> [Board]
           -> [Post]
           -> [Post]
-          -> [(Text, Int)]
-          -> [(Text, Int, Int, Int)]
           -> Html ()
-homepageL details boards teaserImagePosts teaserPosts postActivity boardStats =
+homepageL details boards teaserImagePosts teaserPosts =
   baseL details (title_ "Haskchan") $ do
 
     article_ [id_ "hc-home"] $ do
@@ -49,38 +47,6 @@ homepageL details boards teaserImagePosts teaserPosts postActivity boardStats =
 
           div_ $
             "Anonymous discussion across the Haskchan network."
-
-      -- Statistics
-      section_ [id_ "hc-stats"] $ do
-
-        div_ [class_ "hc-stat-panel"] $ do
-          h2_ "Post Activity"
-
-          table_ [id_ "hc-post-graph"] $ do
-            thead_ $
-              tr_ $ do
-                th_ "Day"
-                th_ "Posts"
-                th_ "Activity"
-
-            tbody_ $
-              mconcat $
-                map activityRow (take 14 postActivity)
-
-        div_ [class_ "hc-stat-panel"] $ do
-          h2_ "Board Statistics"
-
-          table_ [id_ "hc-board-graph"] $ do
-            thead_ $
-              tr_ $ do
-                th_ "Board"
-                th_ "/hr"
-                th_ "Today"
-                th_ "Total"
-
-            tbody_ $
-              mconcat $
-                map boardStatsRow boardStats
 
       -- Boards
       section_ [id_ "hc-boards"] $ do
@@ -185,45 +151,6 @@ homepageL details boards teaserImagePosts teaserPosts postActivity boardStats =
           , href_ $ url post
           ]
           (toHtml $ T.take 224 (nomarkup post))
-
-    activityRow :: (Text, Int) -> Html ()
-    activityRow (day_, posts_) =
-      tr_ $ do
-        td_ $ toHtml day_
-        td_ $ toHtml (show posts_)
-        td_ [class_ "hc-activity-cell"] $
-          span_
-            [class_ "hc-activity-bar"]
-            (toHtml $ activityBar posts_ (maximumActivity postActivity))
-
-    activityBar :: Int -> Int -> Text
-    activityBar posts_ maxPosts
-      | posts_ <= 0 = ":0"
-      | maxPosts <= 0 = ":0"
-      | otherwise =
-          ":0"
-          <> T.replicate barLength "="
-          <> T.pack (show posts_)
-      where
-        barLength =
-          max 1 $
-            round
-              (fromIntegral posts_ / fromIntegral maxPosts * 28 :: Double)
-
-    maximumActivity :: [(Text, Int)] -> Int
-    maximumActivity [] = 0
-    maximumActivity xs = maximum (map snd xs)
-
-    boardStatsRow :: (Text, Int, Int, Int) -> Html ()
-    boardStatsRow (boardUri, perHour, today, total) =
-      tr_ $ do
-        td_ $
-          a_
-            [href_ $ "/" <> boardUri <> "/"]
-            (toHtml $ "/" <> boardUri <> "/")
-        td_ $ toHtml (show perHour)
-        td_ $ toHtml (show today)
-        td_ $ toHtml (show total)
 
     networkLink :: Text -> Text -> Text -> Html ()
     networkLink name address icon =
