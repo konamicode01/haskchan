@@ -10,3 +10,9 @@ static/thumb/
 static/banner/
 captcha/
 tmp/
+
+# Local/private files
+certs/
+phi.db.backup-*
+*.bak
+*.bak-*
